@@ -1,0 +1,141 @@
+# Hexo Configuration
+## Docs: https://hexo.io/docs/configuration.html
+## Source: https://github.com/hexojs/hexo/
+# 世界上有10种人，一种懂二进制，一种不懂二进制。
+# 一定有人改了我的代码！
+# 你用的什么浏览器？
+# 你的数据有问题。
+# 刚才在我机器上好好的！！！
+# Site
+title: 三月
+subtitle: The darkest hour is that before the dawn. 
+description: 生命不息，奋斗不止。
+author: chendong
+language: zh-CN
+timezone:
+avatar: /uploads/avatar.jpg
+
+# URL
+## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
+url: http://chendongmarch.github.io/
+root: /
+# blog/:title.html
+permalink: :year/:month/:day/:title/
+permalink_defaults:
+
+# Directory
+source_dir: source
+public_dir: public
+tag_dir: tags
+archive_dir: archives
+category_dir: categories
+code_dir: downloads/code
+i18n_dir: :lang
+skip_render:
+    - 'README.*'
+    - 'google26933bad87c2b3ba.*'
+    - 'baidu_verify_HnYctWkkrH.*'
+
+# Writing
+new_post_name: :title.md # File name of new posts
+default_layout: post
+titlecase: false # Transform title into titlecase
+external_link: true # Open external links in new tab
+filename_case: 0
+render_drafts: false
+post_asset_folder: true
+relative_link: false
+future: true
+highlight:
+  enable: true
+  line_number: true
+  auto_detect: false
+  tab_replace: 
+
+# Category & Tag
+default_category: uncategorized
+category_map:
+tag_map:
+
+# Date / Time format
+## Hexo uses Moment.js to parse and display date
+## You can customize the date format as defined in
+## http://momentjs.com/docs/#/displaying/format/
+date_format: YYYY-MM-DD
+time_format: HH:mm:ss
+
+# Pagination
+## Set per_page to 0 to disable pagination
+per_page: 20
+pagination_dir: page
+
+# Extensions
+## Plugins: https://hexo.io/plugins/
+## Themes: https://hexo.io/themes/
+# theme: landscape
+# theme: jacman
+# theme: yilia
+theme: next
+
+
+stylus:
+  compress: true
+
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
+
+
+sitemap: 
+  path: sitemap.xml
+
+
+baidusitemap:
+  path: baidusitemap.xml
+
+# Duoshuo ShortName
+duoshuo_shortname: march911091
+
+
+
+# Baidu Analytics ID
+# chendong911091 chendong911091
+baidu_analytics: 59588130c0c528acb1a243d03844a7d1
+
+
+nofollow:
+  enable: true
+  exclude:
+    - http://chendongmarch.github.io/
+    - http://chendongMarch.github.io/
+
+
+# Deployment
+## Docs: https://hexo.io/docs/deployment.html
+## 使用 hexo deploy 部署到git
+deploy:
+   type: git
+   repo: git@github.com:chendongMarch/chendongMarch.github.io.git
+   branch: master
+
+# Others
+index_generator:
+  per_page: 10 ##首页默认10篇文章标题 如果值为0不分页
+
+archive_generator:
+    per_page: 0 ##归档页面默认10篇文章标题
+    yearly: true  ##生成年视图
+    monthly: true ##生成月视图
+
+tag_generator:
+    per_page: 0 ##标签分类页面默认10篇文章
+
+category_generator: 
+    per_page: 0 ###分类页面默认10篇文章
+
+feed:
+    type: atom ##feed类型 atom或者rss2
+    path: atom.xml ##feed路径
+    limit: 20  ##feed文章最小数量
