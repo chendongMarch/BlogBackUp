@@ -26,7 +26,6 @@ keywords:
 
 如果你没有在声明变量时进行初始化操作，那么编译器将无法推断变量的类型，此时必须使用显式声明类型的方式。
 
-
 ```kotlin
 val a = 100 // 常量，不可变，当你再想改变他的值时会报错
 var b = 1000 // 变量，可变
@@ -39,6 +38,7 @@ stuVar = Student("name2",12)
 // 声明一个可以为null的变量
 var stuCanBeNull: Student? = null
 ```
+
 
 
 ## 初始化

@@ -21,7 +21,6 @@ ps: 开始的时候我只编译出了6个so文件，缺少`libavdevice.so`和`li
 
 
 
-
 ## 配置 NDK 环境
 打开`~/.bash_profile`文件，添加`ndk`的环境变量，最后别忘了`source .bash_profile`更新配置，完成之后运行 `ndk-build -v`查看版本，没有提示找不到命令就可以了。
 
@@ -110,13 +109,15 @@ build_one
 
 ![](http://7xtjec.com1.z0.glb.clouddn.com/ffmpeg_finder_dir_scan.jpeg)
 
+
 ## 将编译生成的文件 copy 到 AS 中
 目录如下，jniLibs里面是最后我们编译生成好之后拷贝进去的，现在应该是空的，编译生成的so文件会生成在`src/main/libs`目录里面，生成好之后，如果你使用`jniLibs`目录加载so,就拷贝到这里。图片中的描述略有歧义。
 
 ![](http://7xtjec.com1.z0.glb.clouddn.com/ffmpeg_as_dir_scan.jpg)
 
 
-## 编写 JNI 接口
+## 编写 C 语言的 JNI 接口
+这里是拷贝了别人写好的代码，这篇文章主要还是把整个编译流程完成，因此直接用了别人已经写好的，后面的文章会对这一块详细介绍。
 
 编写文件名为`ffmpeg_support.c`的c文件，声明java调用接口，函数命名需要按照`Java_包名_类名_方法名`的形式来编写，区分大小写。
 
@@ -227,9 +228,22 @@ ndk.dir=/Users/march/AndroidRes/sdk/ndk-bundle
 sdk.dir=/Users/march/AndroidRes/sdk
 ```
 
-然后进入到terminal，cd到jni目录，执行 `ndk-build`命令   
+然后进入到terminal，cd到jni目录，执行 `ndk-build` 命令   
 等待一段时间
 编译完成的结果应该是这样的，如果你使用jniLibs目录作为加载so的目录，将so文件拷贝到jniLibs中。
+
+在 `app/build.gradle` 配置以下代码，可以将 `jniLibs` 目录指向 `libs`，这样就不需要每次拷贝 `so` 文件到 `jniLibs` 了
+
+```gradle
+sourceSets {
+        //定义编译时编译文件的路径
+        main {
+            res.srcDirs = ['src/main/res']
+            jniLibs.srcDirs = ['src/main/libs']
+            jni.srcDirs = []
+        }
+    }
+```
 
 ![](http://7xtjec.com1.z0.glb.clouddn.com/ffmpeg_compile_end.jpeg)
 
