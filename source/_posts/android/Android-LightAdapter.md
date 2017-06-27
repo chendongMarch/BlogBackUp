@@ -21,4 +21,4 @@ keywords: [Android,Adapter,RecyclerView,开源库]
 
 5. `UpdateModule`，实现包装数据更新功能，在主线程更新数据，并提供更多更新数据的方法。
 
-<!--more--><!--more-->
+<!--more-->

@@ -20,7 +20,7 @@ avatar: /uploads/avatar.jpg
 url: http://chendongmarch.github.io/
 root: /
 # blog/:title.html
-permalink: :year/:month/:day/:title/
+permalink: :title/
 permalink_defaults:
 
 # Directory

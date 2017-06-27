@@ -2,7 +2,9 @@
 layout: post
 title: Swift基础语法1
 date: 2016-03-15
-category: 技术
+categories:
+    - 技术
+    - Swift
 tags: Swift
 keywords: 
 description: Swift基础语法1

@@ -6,11 +6,14 @@ category: 技术
 tags: kotlin
 keywords: [kotlin,导包,数值,字符,布尔,数组,字符串,if,when,for,while,return,continue,break]
 ---
-本篇介绍 `Kotlin` 的基础语法和特性。主要包括
-1. `import` 语句和包的相关概念。
-2. 大部分内建数据类型的介绍。包括数值类型，字符类型，布尔类型，数组类型，字符串类型。
-3. 控制流的使用，`if` , `when` , `for` , `while` 等关键字在 `Kotlin` 中的新特性。
-4. 如何在函数中返回和跳转，`return` , `continue` , `break` 等关键字的使用。
+
+本篇介绍 `Kotlin` 的基础语法和特性。主要包括   
+> 1. `import` 语句和包的相关概念。   
+2. 可见度修饰符的使用。   
+3. 大部分内建数据类型的介绍。包括数值类型，字符类型，布尔类型，数组类型，字符串类型。
+4. 控制流的使用，`if` , `when` , `for` , `while` 等关键字在 `Kotlin` 中的新特性。
+5. 如何在函数中返回和跳转，`return` , `continue` , `break` 等关键字的使用。
+
 
 go~
 
@@ -25,6 +28,8 @@ import com.march.ktexample.model.Student
 import android.util.Log as L
 L.e(TAG, str)
 ```
+
+## 可见度修饰符
 
 ## 内建数据类型
 介绍 `Kotlin` 的内建数据类型，包括数值类型，字符类型，布尔类型，数组类型，字符串类型。

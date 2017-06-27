@@ -6,19 +6,19 @@ category: Android
 tags: [Android,Android5.+]
 keywords:  
 ---
- 
-## 1. 前言
-> TabLayout是用来实现tab导航的控件，放在`android.support.design.widget`包里面，使用它可以很简单有很完美的结合`ViewPager`或者`FragmentManager`实现tab导航，并且实现与ViewPager的联动等功能。 本文主要介绍了：   
 
-> 1. TabLayout的基本特性。  
-> 2. 如何与ViewPager联动。  
-> 3. 如何自定义TabLayout的显示。  
+
+本文主要介绍 `TabLayout` 的详细使用，持续完善中... 
+
+> 1. `TabLayout` 的基本属性及效果 
+> 2. `TabLayout` 与 `ViewPager` 联动
+> 3. 自定义 `TabLayout` 的 `tab` 显示
 
 
 <!--more-->
 
----
-## 2. 基本使用和常见属性
+
+## 基本属性介绍
 
 ```xml
 <android.support.design.widget.TabLayout
@@ -73,21 +73,29 @@ app:tabPaddingTop="0dp"
 ```
 
   
-## 3. 与ViewPager联动
-使用方法`tabLy.setupWithViewPager(viewPager);`，就可以了，但是需要注意的是写ViewPager时需要实现getTitle()方法，用来设置tab的标题。原先给Tab设置的标题将会被覆盖掉。
+## 与 ViewPager 联动
+使用 `TabLayout` 的 `setupWithViewPager()` 方法，可以实现与 `ViewPager` 的联动，但是需要注意的是写 `ViewPager` 时需要实现 `getTitle()` 方法，用来设置 `tab` 的标题。原先给 `Tab` 设置的标题将会被覆盖掉。
+
+```java
+tabLy.setupWithViewPager(viewPager);
+```
 
 
 
 
-## 4. 自定义Tab显示
-默认的`TabLayout`是可以显示文字和Icon的，定制度不是很高，有时候很难达到想要的效果，不过好在`TabLayout`开放了`setCustomView(childView)`这个API来支持我们自定义`TabLayout`的UI，当然自定义显示之后也损失了切换时颜色切换等效果，需要我们自己来处理，这边我模仿adapter的方式写了一个辅助类，用来更简单的实现自定义Tab显示时的显示和状态切换，源码很简单，主要是使用模板方法的方式，由 **子类决定** 并且 **只关注** 如何加载数据和更改状态显示的操作。
+## 自定义 Tab 显示
+默认的 `TabLayout` 是可以显示文字和 `Icon` 的，但是定制度不是很高，往往不能实现预期效果，不过好在 `TabLayout` 开放了 `setCustomView(childView)` 这个 `API` 来支持我们自定义 `TabLayout` 的UI，当然自定义显示之后也损失了切换时颜色切换等效果，需要我们自己来处理，下面是我定义了一个辅助类，使用类似 `adapter` 的形式来加载 `TabLayout` 的每个 `tab` 的显示，实现自定义效果，也对选中事件等作了简化操作。
 
 ```java
 /**
+ * CreateAt : 2017/3/29
  * Describe : TabLayout适配器,快速实现TabLayout自定义View数据加载
+ *
  * @author chendong
  */
-public abstract class BaseTabLayoutAdapter<T> {
+public abstract class BaseTabAdapter<T> {
+
+    public static final String TAG = BaseTabAdapter.class.getSimpleName();
 
     private Context                   mContext;
     // 自定义布局layout文件
@@ -101,6 +109,8 @@ public abstract class BaseTabLayoutAdapter<T> {
     // 简化的tab点击事件
     private OnTabSelectListener<T>    mOnTabSelectListener;
 
+    private boolean mIsReady;
+
     /**
      * Tab选中的接口
      *
@@ -110,7 +120,8 @@ public abstract class BaseTabLayoutAdapter<T> {
         void onSelect(int pos, T data);
     }
 
-    protected BaseTabLayoutAdapter(Context context, List<T> datas, int resId) {
+    
+    protected BaseTabAdapter(Context context, List<T> datas, int resId) {
         mDatas = datas;
         mContext = context;
         mResId = resId;
@@ -118,30 +129,35 @@ public abstract class BaseTabLayoutAdapter<T> {
     }
 
     public void attachTabLayout(TabLayout tabLayout) {
+        tabLayout.clearOnTabSelectedListeners();
         attachTabLayout(tabLayout, 0);
     }
 
-    private void attachTabLayout(TabLayout tabLayout, int posSelect) {
+    public void attachTabLayout(TabLayout tabLayout, int posSelect) {
+        mIsReady = false;
         mTabLayout = tabLayout;
         // 设置导航条高度=0
         tabLayout.setSelectedTabIndicatorHeight(0);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                L.e(TAG, "onTabSelected " + tab.getPosition());
                 int position = tab.getPosition();
-                updateStatus(mTabLayoutViewHolders.get(position), mDatas.get(position), true);
-                if (mOnTabSelectListener != null) {
+                if (mIsReady && mOnTabSelectListener != null) {
                     mOnTabSelectListener.onSelect(position, mDatas.get(position));
                 }
+                updateStatus(mTabLayoutViewHolders.get(position), mDatas.get(position), true);
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+                L.e(TAG, "onTabUnselected " + tab.getPosition());
                 updateStatus(mTabLayoutViewHolders.get(tab.getPosition()), mDatas.get(tab.getPosition()), false);
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+                L.e(TAG, "onTabReselected " + tab.getPosition());
                 updateStatus(mTabLayoutViewHolders.get(tab.getPosition()), mDatas.get(tab.getPosition()), true);
             }
         });
@@ -160,14 +176,36 @@ public abstract class BaseTabLayoutAdapter<T> {
 
         // 选中初始化选中的那个
         TabLayout.Tab tabAt = tabLayout.getTabAt(posSelect);
-        if (tabAt != null)
+        if (tabAt != null) {
             tabAt.select();
+            if (mOnTabSelectListener != null) {
+                mOnTabSelectListener.onSelect(posSelect, mDatas.get(posSelect));
+            }
+        }
+        mIsReady = true;
+    }
+    
+    public void notifyItemChanged(int pos) {
+        if (pos >= 0 && pos < mDatas.size()) {
+            TabLayout.Tab tabAt;
+            tabAt = mTabLayout.getTabAt(pos);
+            updateStatus(mTabLayoutViewHolders.get(pos), mDatas.get(pos), tabAt != null && tabAt.isSelected());
+        }
     }
 
-	/**
+    public void notityDataSetChanged() {
+        TabLayout.Tab tabAt;
+        for (int i = 0; i < mDatas.size(); i++) {
+            tabAt = mTabLayout.getTabAt(i);
+            updateStatus(mTabLayoutViewHolders.get(i), mDatas.get(i), tabAt != null && tabAt.isSelected());
+        }
+    }
+
+    /**
      * 抽象方法，更新控件状态显示
-     * @param holder view holder
-     * @param data 数据
+     *
+     * @param holder   view holder
+     * @param data     数据
      * @param isSelect 是否选中
      */
     public abstract void updateStatus(TabLayoutViewHolder holder, T data, boolean isSelect);
@@ -175,15 +213,27 @@ public abstract class BaseTabLayoutAdapter<T> {
     public void setOnTabSelectListener(OnTabSelectListener<T> onTabSelectListener) {
         mOnTabSelectListener = onTabSelectListener;
     }
-    
-     /**
+
+    public interface OnBuildTabListener<D> {
+        TabLayout.Tab onBuild(TabLayout.Tab tab, D data);
+    }
+
+    public static <D> void buildTabLayout(TabLayout tabLayout, List<D> datas, OnBuildTabListener<D> listener) {
+        TabLayout.Tab tab;
+        for (D data : datas) {
+            tab = tabLayout.newTab();
+            tabLayout.addTab(listener.onBuild(tab, data));
+        }
+    }
+
+    /**
      * 公共holder，用来存储和快速获取控件
      */
     public static class TabLayoutViewHolder {
         private View              parentView;
         private SparseArray<View> mCacheViews;
 
-        public View getParentView() {
+        public View getItemView() {
             return parentView;
         }
 
@@ -203,24 +253,55 @@ public abstract class BaseTabLayoutAdapter<T> {
             return v;
         }
     }
-}
 
 
-// 如何使用？
-BaseTabLayoutAdapter<BeautifyToolTabData> baseTabLayoutAdapter =
-                new BaseTabLayoutAdapter<ModelData>(getContext(), tabDatas, R.layout.kiwi_item_beautify_tably) {
-                    @Override
-                    public void updateStatus(TabLayoutViewHolder holder, ModelData data, boolean isSelect) {
-                        holder.<TextView>getView(R.id.tv_title).setText(data.getTitle());
-                        holder.<ImageView>getView(R.id.iv_icon).setImageResource(isSelect ? data.getSelectRes() : data.getUnSelectRes());
-                    }
-                };
-baseTabLayoutAdapter.setOnTabSelectListener(new BaseTabLayoutAdapter.OnTabSelectListener<ModelData>() {
+    public void setUpViewPager(final ViewPager viewPager) {
+        if (mTabLayout == null) {
+            Log.e("chendong", "TabLayout is null ,invoke attachTabLayout first");
+            return;
+        }
+        mTabLayout.addOnTabSelectedListener(new MyOnTabSelectedListener() {
             @Override
-            public void onSelect(int pos, ModelData data) {
-          	// 选中事件  
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (viewPager != null)
+                    viewPager.setCurrentItem(tab.getPosition());
             }
         });
-baseTabLayoutAdapter.attachTabLayout(mTabLayout);
+        if (viewPager != null)
+            viewPager.addOnPageChangeListener(new MyOnPageChangeListener() {
+                @Override
+                public void onPageSelected(int position) {
+                    if (mTabLayout != null) {
+                        TabLayout.Tab tabAt = mTabLayout.getTabAt(position);
+                        if (tabAt != null)
+                            tabAt.select();
+                    }
+                }
+
+            });
+    }
+}
 ```
 
+how to usage?
+
+```java
+BaseTabAdapter<Baby> adapter = new BaseTabAdapter<Baby>(mActivty, babies, R.layout.vip_select_family_baby_item)
+    @Override
+    public void updateStatus(TabLayoutViewHolder holder, Baby data, boolean isSelect) {
+        holder.getView(R.id.parent).getLayoutParams().width = (int) (BaoBaoApplication.DISPLAY_WIDTH / 3f);
+        TextView nameTv = holder.getView(R.id.tv_name);
+        nameTv.setText(data.getBabyName());
+        holder.getView(R.id.view_line).setBackgroundColor(isSelect
+                ? ContextCompat.getColor(mBaseFragmentActivity, R.color.colorPrimary)
+                : ContextCompat.getColor(mBaseFragmentActivity, R.color.color_EFEFEF));
+    }
+};
+adapter.setOnTabSelectListener(new BaseTabAdapter.OnTabSelectListener<Baby>() {
+    @Override
+    public void onSelect(int pos, Baby data) {
+        // 请求数据，展示数据
+    }
+});
+adapter.attachTabLayout(mTabLayout, 1);
+```

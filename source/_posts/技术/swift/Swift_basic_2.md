@@ -2,7 +2,9 @@
 layout: post
 title: Swift基础2
 date: 2016-05-11
-category: 技术
+categories:
+    - 技术
+    - Swift
 tags: Swift
 keywords: 
 description: Swift基础进阶
