@@ -1,10 +1,13 @@
 ---
 layout: post
 title: Android编译FFmpeg之HelloWorld
-date: 2017-05-25
 category: Android
-tags: [Android,FFmpeg]
-keywords: 
+tags:
+  - Android
+  - FFmpeg
+abbrlink: 3809198562
+date: 2017-05-25 00:00:00
+keywords:
 ---
  
 编译` FFmpeg3.3.1 `的so文件，并在` Android `工程中使用。    

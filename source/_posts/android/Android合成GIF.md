@@ -1,11 +1,12 @@
 ---
 layout: post
 title: 在Android平台下合成Gif
-date: 2016-03-09
 category: Android
 tags: Android
 keywords: Android
 description: 在Android平台下合成Gif
+abbrlink: 3121499733
+date: 2016-03-09 00:00:00
 ---
 
 

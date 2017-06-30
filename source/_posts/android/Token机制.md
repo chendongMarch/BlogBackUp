@@ -1,11 +1,12 @@
 ---
 layout: post
 title: 移动端与服务器token机制
-date: 2016-09-28
 category: Android
 tags: Android
-keywords: 
 description: 移动端与服务器token机制
+abbrlink: 1482489498
+date: 2016-09-28 00:00:00
+keywords:
 ---
 
 

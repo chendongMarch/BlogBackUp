@@ -1,6 +1,13 @@
 ## 分类
 
 Android
+	- View
+	- Tools
+
+Study
+	- Kotlin
+	- Swift
+	- Python
 
 JS 
 
@@ -27,6 +34,8 @@ Hexo
 ## 标签
 
 Android	
+
+SourceCode
 
 JS 
 

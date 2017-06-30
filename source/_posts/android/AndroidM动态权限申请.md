@@ -1,11 +1,14 @@
 ---
 layout: post
 title: Android 6.0权限动态申请
-date: 2016-08-16
 category: Android
-tags: [Android,Android5.+]
-keywords: 
+tags:
+  - Android
+  - Android5.+
 description: Android 6.0权限动态申请
+abbrlink: 2939773101
+date: 2016-08-16 00:00:00
+keywords:
 ---
 
 

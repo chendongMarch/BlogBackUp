@@ -1,11 +1,13 @@
 ---
 layout: post
 title: 使用传统Android组件实现高效数据加载
-date: 2015-05-14
 category: Android
-tags: [Android]
-keywords: 
+tags:
+  - Android
 description: 使用传统Android组件实现高效数据加载
+abbrlink: 3092091804
+date: 2015-05-14 00:00:00
+keywords:
 ---
 
 

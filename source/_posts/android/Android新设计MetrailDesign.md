@@ -1,11 +1,13 @@
 ---
 layout: post
 title: Android设计MetrailDesign
-date: 2015-03-09
 category: Android
-tags: [Android,Android5.+]
-keywords: 
-description: Android设计MetrailDesign
+tags:
+  - Android
+  - Android5.+
+abbrlink: 3353371585
+date: 2015-03-09 00:00:00
+keywords:
 ---
 
 ## Theme

@@ -1,11 +1,14 @@
 ---
 layout: post
 title: ViewPager自定义控件广告板轮播
-date: 2016-03-16
 category: Android
-tags: [Android,开源库]
-keywords: 
+tags:
+  - Android
+  - 开源库
 description: ViewPager自定义控件广告板轮播
+abbrlink: 149273814
+date: 2016-03-16 00:00:00
+keywords:
 ---
 
 

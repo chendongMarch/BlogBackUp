@@ -19,9 +19,17 @@ avatar: /uploads/avatar.jpg
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: http://chendongmarch.github.io/
 root: /
-# blog/:title.html
-permalink: :title/
+# 目录/子目录/文件名
+# permalink: :title/
+# article/十六进制码
+permalink: article/:abbrlink/  # article/” 可自行更换
 permalink_defaults:
+
+# abbrlink config
+abbrlink:
+  alg: crc32  # 算法：crc16(default) and crc32
+  rep: hex    # 进制：dec(default) and hex
+
 
 # Directory
 source_dir: source
@@ -43,7 +51,8 @@ titlecase: false # Transform title into titlecase
 external_link: true # Open external links in new tab
 filename_case: 0
 render_drafts: false
-post_asset_folder: true
+# 创建文章时会默认创建同名文件夹来存储资源文件
+post_asset_folder: false
 relative_link: false
 future: true
 highlight:
@@ -78,6 +87,9 @@ pagination_dir: page
 theme: next
 
 
+disqus_shortname: chendong
+
+
 stylus:
   compress: true
 
@@ -97,8 +109,6 @@ baidusitemap:
 
 # Duoshuo ShortName
 duoshuo_shortname: march911091
-
-
 
 # Baidu Analytics ID
 # chendong911091 chendong911091
@@ -139,3 +149,31 @@ feed:
     type: atom ##feed类型 atom或者rss2
     path: atom.xml ##feed路径
     limit: 20  ##feed文章最小数量
+
+
+# 文章压缩
+html_minifier:
+  enable: true
+  ignore_error: false
+  exclude:
+
+css_minifier:
+  enable: true
+  exclude:
+    - '*.min.css'
+
+js_minifier:
+  enable: true
+  mangle: true
+  output:
+  compress:
+  exclude:
+    - '*.min.js'
+
+image_minifier:
+  enable: true
+  interlaced: false
+  multipass: false
+  optimizationLevel: 2
+  pngquant: false
+  progressive: false

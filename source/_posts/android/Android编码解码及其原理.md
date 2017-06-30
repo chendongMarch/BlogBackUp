@@ -1,11 +1,13 @@
 ---
 layout: post
 title: Android编码解码及其原理
-date: 2015-05-11
 category: Android
-tags: [Android,算法]
-keywords: 
-description: Android编码解码及其原理
+tags:
+  - Android
+  - 算法
+abbrlink: 438600076
+date: 2015-05-11 00:00:00
+keywords:
 ---
 
 

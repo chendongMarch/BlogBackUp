@@ -1,11 +1,14 @@
 ---
 layout: post
 title: Android V7V4包新控件
-date: 2015-03-03
 category: Android
-tags: [Android,Android5.+]
-keywords: 
+tags:
+  - Android
+  - Android5.+
 description: V7新控件
+abbrlink: 1947623271
+date: 2015-03-03 00:00:00
+keywords:
 ---
 
 ## AlertDialog

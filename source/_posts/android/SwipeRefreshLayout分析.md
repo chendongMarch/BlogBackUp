@@ -1,11 +1,14 @@
 ---
 layout: post
 title: 分析SwipeRefreshLayout实现自定义刷新
-date: 2016-08-25
 category: Android
-tags: [Android,Android5.+]
-keywords: 
+tags:
+  - Android
+  - Android5.+
 description: 分析SwipeRefreshLayout实现自定义刷新
+abbrlink: 308486771
+date: 2016-08-25 00:00:00
+keywords:
 ---
 
 

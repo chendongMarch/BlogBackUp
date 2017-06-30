@@ -1,11 +1,14 @@
 ---
 layout: post
 title: Android轻松集成Camera拍照
-date: 2016-03-12
 category: Android
-tags: [Android,Camera,开源库]
-keywords: 
-description: Android轻松集成Camera拍照
+tags:
+  - Android
+  - Camera
+  - 开源库
+abbrlink: 3102190682
+date: 2016-03-12 00:00:00
+keywords:
 ---
 
 ## 前言

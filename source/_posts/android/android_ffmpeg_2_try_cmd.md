@@ -1,10 +1,13 @@
 ---
 layout: post
 title: Android编译FFmpeg之命令行
-date: 2017-06-13
 category: Android
-tags: [Android,FFmpeg]
-keywords: 
+tags:
+  - Android
+  - FFmpeg
+abbrlink: 4043209466
+date: 2017-06-13 00:00:00
+keywords:
 ---
 
 上篇文章介绍了 `FFmpeg` 大体的编译流程，并在 `Java` 层进行 `JNI` 接口的调用，借此了解 `Android` 编译底层 `so` 库的方式，本文主要介绍如何在 `Android` 平台使用 `FFmoeg` 命令行对音视频进行操作。

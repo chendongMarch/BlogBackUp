@@ -1,11 +1,12 @@
 ---
 layout: post
 title: Android添加快捷方式
-date: 2016-07-29
 category: Android
 tags: Android
-keywords: 
 description: Android添加快捷方式
+abbrlink: 3591670187
+date: 2016-07-29 00:00:00
+keywords:
 ---
 
 ## 权限
