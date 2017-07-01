@@ -19,6 +19,22 @@ date: 2017-03-02 00:00:00
 <!--more-->
 
 
+
+## BugFix
+
+错误 `Cannot set property 'lastIndex' of undefined`，修改 `hexo/config.yml` 设置 `auto_detect: false`
+
+```css
+highlight:
+  enable: true
+  line_number: true
+  auto_detect: false
+  tab_replace: 
+```
+
+
+
+
 ## SEO优化
 
 > [Hexo NexT主题SEO优化](https://lancelot_lewis.coding.me/2016/08/16/blog/Hexo-NexT-SEO/)
@@ -59,46 +75,15 @@ password: 123456
 ```
 
 
-
 ## 添加留言界面
-很遗憾，现在多说已经不能用了。
 
-添加page，在博客根目录下执行如下命令，会在source目录下面创建`msg/index.md`文件
+添加page，在博客根目录下执行如下命令，会在source目录下面创建`msg/index.md`文件。
 
 ```bash
 hexo new page msg
 ```
-
-配置·多说·，在`msg/index.md`文件**底部**添加如下html代码
-
-```html
-<div class="ds-recent-visitors" data-num-items="28" data-avatar-size="42" id="ds-recent-visitors"></div>
-```
-进入**多说**站点，打开`设置->自定义CSS`，在输入框内加入如下css代码
-
-```css
-#ds-reset .ds-avatar img,
-#ds-recent-visitors .ds-avatar img {
-    width: 54px;
-    height: 54px;     /*設置圖像的長和寬，這裏要根據自己的評論框情況更改*/
-    border-radius: 27px;     /*設置圖像圓角效果,在這裏我直接設置了超過width/2的像素，即為圓形了*/
-    -webkit-border-radius: 27px;     /*圓角效果：兼容webkit瀏覽器*/
-    -moz-border-radius: 27px;
-    box-shadow: inset 0 -1px 0 #3333sf;     /*設置圖像陰影效果*/
-    -webkit-box-shadow: inset 0 -1px 0 #3333sf;
-}
-#ds-recent-visitors .ds-avatar {
-    float: left
-}
-/*隱藏多說底部版權*/
-#ds-thread #ds-reset .ds-powered-by {
-    display: none;
-}
-```
-
-### 配置文字和图标
-
-配置页面，打开`themes/next/_config.yml`文件，进行如下配置，才能使留言的界面显示侧边栏中
+ 
+配置文字和图标，打开`themes/next/_config.yml`文件，进行如下配置，才能使留言的界面显示
 
 ```
 menu:
@@ -137,6 +122,7 @@ menu:
   guestbook: 留言
 ```
 
+
 ## 过滤文件不进行渲染
 
 在给站点添加 `README.md` 和 Google，百度相关的验证文件时，我们希望这个文件不要被主题渲染，而是源文件直接拷贝到 `public` 文件夹中，只需要在 `hexo/_config.yml` 中进行如下配置。
@@ -146,18 +132,6 @@ skip_render:
     - 'README.*'
     - 'google26933bad87c2b3ba.*'
     - 'baidu_verify_HnYctWkkrH.*'
-```
-
-## bug fix
-
-错误 `Cannot set property 'lastIndex' of undefined`，修改 `hexo/config.yml` 设置 `auto_detect: false`
-
-```css
-highlight:
-  enable: true
-  line_number: true
-  auto_detect: false
-  tab_replace: 
 ```
 
 
@@ -230,35 +204,79 @@ image_minifier:
 ```
 
 
-## 添加 fork me
+## 添加 fork me on github
 
-_layout.swig 
-
+修改 `hexoBlog/themes/next/layout/_layout.swig` 文件，在 `header`
+标签之前添加图片，图片样式可以到[该站点](https://github.com/blog/273-github-ribbons)选择颜色和位置等。`href` 中需要修改你为的 `github` 地址
 ```
-<div class="{{ container_class }} {% block page_class %}{% endblock %} ">
+ <div class="{{ container_class }} {% block page_class %}{% endblock %} ">
     <div class="headband"></div>
 
   <!--- add Fork me on Github  -->
-    
-    <a href="https://github.com/chendongmarch">
-      <img style="position: absolute; top: 500; left: 0; border: 0;" src="https://camo.githubusercontent.com/8b6b8ccc6da3aa5722903da7b58eb5ab1081adee/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_orange_ff7600.png">
-    </a>
-    
+    <div class="forkme">
+   <a target="_blank" href="https://github.com/chendongMarch"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>
+    </div>
     <!--- add Fork me on Github -->   
     
     <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
-    ....
+```
+在 `head` 标签内添加 `style` 使小屏幕访问时不显示这个图片
+
+```html
+<head>
+  {% include '_partials/head.swig' %}
+  <title>{% block title %}{% endblock %}</title>
+<style>
+  .forkme{
+    display: none;
+  }
+@media (min-width: 768px) {
+  .forkme{
+    display: inline;
+  }
+}
+  </style>
+  {% include '_third-party/analytics/index.swig' %}
+</head>
 ```
 
 ## 代码风格处理
 
-highlight.styl
-
-分行时不根据单词
-
+查看 `hexoBlog/themes/next/source/css/_common/components/highlight/highlight.styl` 文件，是对高亮代码的相关配置。找到标签修改既可。
+ 
 ```
+// 行内代码
 code{
+	// 分行时是不是根据单词划分
 	word-wrap: break-all/break-word;
-	color:#fff;代码颜色
+	// 代码颜色
+	color:#fff;
 }
 ```
+
+
+## 添加本地搜索
+
+安装插件 `hexo-generator-searchdb`
+
+```
+npm install hexo-generator-searchdb --save
+```
+配置 `hexo/_config.yml`
+
+```
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
+```
+配置 `next/_config.yml`
+
+```
+# Local search
+local_search:
+  enable: true
+```
+
+
