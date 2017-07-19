@@ -2,10 +2,8 @@
 layout: post
 title: Hexo
 categories:
-  - Extensions
   - Hexo
 tags:
-  - Extensions
   - Hexo
 keywords:
   - Hexo
@@ -18,7 +16,8 @@ date: 2017-03-02 00:00:00
 
 <!--more-->
 
-
+## 弄懂 NexT
+`post.md` 中 `bool` 属性默认值是 `false`
 
 ## BugFix
 
@@ -279,4 +278,72 @@ local_search:
   enable: true
 ```
 
+
+
+## 添加加载进度
+
+在 `Next` 主题下打开 `` 文件，在最后追加进度条
+
+```css
+{# 添加进度条 #}
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #00d9cf; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+```
+
+## 解决表格被等分
+
+文件 `themes/next/source/css/_common/scaffolding/tables.styl` 
+
+```
+table-layout: auto;
+```
+
+
+## 添加 Leancloud 统计
+今天发现网页访问很慢，查了之后发现不蒜子统计访问太慢，换成leancloud,但是只有pv统计。
+
+[参考文章](https://notes.wanghao.work/2015-10-21-%E4%B8%BANexT%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD.html#%E9%85%8D%E7%BD%AELeanCloud)
+
+
+## 指定文章不在首页显示
+文件 `/Users/march/Documents/hexoBlog/themes/next/layout/index.swig` 修改。
+
+
+```
+<section id="posts" class="posts-expand">
+    {% for post in page.posts %}
+      {%if !post.hide %}
+      	{{ post_template.render(post, true) }}
+      {% endif %}
+    {% endfor %}
+</section>
+
+// render 之前判断
+{%if !post.hide %}
+   {{ post_template.render(post, true) }}
+{% endif %}
+
+```
+然后在文章文件头部，增加
+
+```
+---
+...
+hide: true
+---
+```
 

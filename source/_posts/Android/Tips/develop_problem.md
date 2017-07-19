@@ -3,9 +3,9 @@ layout: post
 title: Android开发问题常见问题
 categories:
   - Android
-  - Tips
 tags:
   - Android
+  - AndroidTips
 keywords:
   - Android
 abbrlink: 1817351074

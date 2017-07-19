@@ -3,9 +3,9 @@ layout: post
 title: 保存照片和视频到相册显示
 categories:
   - Android
-  - Tips
 tags:
   - Android
+  - AndroidTips
 keywords:
   - Android
   - 保存照片视频到相册

@@ -1,8 +1,7 @@
 ---
 layout: post
-title: Python基础1
+title: Python开发-1-基础
 categories:
-  - Study
   - Python
 tags: Python
 keywords:

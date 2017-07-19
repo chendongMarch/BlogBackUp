@@ -1,8 +1,7 @@
 ---
 layout: post
-title: 加密解密（RSA）
+title: RSA加密解密
 categories:
-  - Study
   - Java
 tags: Java
 keywords:

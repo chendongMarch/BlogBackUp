@@ -2,7 +2,6 @@
 layout: post
 title: Python普通方法、静态方法、类方法
 categories:
-  - Study
   - Python
 tags: Python
 keywords:

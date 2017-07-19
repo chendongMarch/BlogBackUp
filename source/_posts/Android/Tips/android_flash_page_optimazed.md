@@ -3,9 +3,9 @@ layout: post
 title: 防止app闪白屏或闪黑屏
 categories:
   - Android
-  - Tips
 tags:
   - Android
+  - AndroidTips
 keywords:
   - Android
   - 去掉启动闪屏

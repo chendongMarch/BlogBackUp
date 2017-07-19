@@ -8,7 +8,7 @@
 # 刚才在我机器上好好的！！！
 # Site
 title: 三月
-subtitle: The darkest hour is that before the dawn. 
+subtitle: 
 description: 生命不息，奋斗不止。
 author: chendong
 language: zh-CN
@@ -17,7 +17,7 @@ avatar: /uploads/avatar.jpg
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://chendongmarch.github.io/
+url: http://cdevlab.top
 root: /
 # 目录/子目录/文件名
 # permalink: :title/
@@ -43,6 +43,8 @@ skip_render:
     - 'README.*'
     - 'google26933bad87c2b3ba.*'
     - 'baidu_verify_HnYctWkkrH.*'
+    - 'baidu_verify*.*'
+    - 'CNAME'
 
 # Writing
 new_post_name: :title.md # File name of new posts
@@ -87,7 +89,7 @@ pagination_dir: page
 theme: next
 
 
-disqus_shortname: chendong
+# disqus_shortname: chendong
 
 
 stylus:
@@ -108,7 +110,7 @@ baidusitemap:
   path: baidusitemap.xml
 
 # Duoshuo ShortName
-duoshuo_shortname: march911091
+# duoshuo_shortname: march911091
 
 # Baidu Analytics ID
 # chendong911091 chendong911091

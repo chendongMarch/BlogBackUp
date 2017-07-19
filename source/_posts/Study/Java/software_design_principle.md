@@ -2,7 +2,6 @@
 layout: post
 title: 软件设计原则
 categories:
-  - Study
   - Java
 tags:
   - Java

@@ -3,9 +3,9 @@ layout: post
 title: AS 升级 gradle 到2.3.1异常
 categories:
   - Android
-  - Tips
 tags:
   - Android
+  - AndroidTips
 keywords:
   - Android
 abbrlink: 2758264870

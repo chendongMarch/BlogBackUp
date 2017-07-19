@@ -3,9 +3,9 @@ layout: post
 title: 快速实现Fragment切换功能
 categories:
   - Android
-  - Tips
 tags:
   - Android
+  - AndroidTips
 keywords:
   - Android
   - Fragment

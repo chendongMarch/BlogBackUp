@@ -3,9 +3,9 @@ layout: post
 title: Android系统分享的注册和调起
 categories:
   - Android
-  - Tips
 tags:
   - Android
+  - AndroidTips
 keywords:
   - Android
   - 系统分享

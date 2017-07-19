@@ -1,8 +1,7 @@
 ---
 layout: post
-title: Kotlin-变量常量篇
+title: 使用 Kotlin 开发 (番外)
 categories:
-  - Study
   - Kotlin
 tags: Kotlin
 keywords:
@@ -23,70 +22,7 @@ date: 2017-06-01 00:00:00
 自定义属性代理   
 
 <!--more-->
-
-## 变量和常量
-`Kotlin` 中，使用 `val` 声明常量(不可变)，使用 `var` 声明变量(可变)。
-
-`Kotlin` 具有自动类型推断的特性，例如声明 `val a = 100`，会自动推断 `a` 的类型为 `Int`，因此你可以省略类型的声明，当然你也可以显式的声明变量的类型，例如 `val a:Int = 100` ，采用 `:Type` 的形式跟在变量名后面。
-
-如果你没有在声明变量时进行初始化操作，那么编译器将无法推断变量的类型，此时必须使用显式声明类型的方式。
-
-```kotlin
-val a = 100 // 常量，不可变，当你再想改变他的值时会报错
-var b = 1000 // 变量，可变
-b = -100
-        
-val stuVal = Student("name", 11)
-var stuVar = Student("name", 11)
-stuVar = Student("name2",12)
-
-// 声明一个可以为null的变量
-var stuCanBeNull: Student? = null
-```
-
-
-
-## 初始化
-首先你可以在声明 变量/常量 的时候进行 变量/常量 的初始化，当然大多数时候我们不会在声明 变量/常量 的时候进行初始化。
-
-Kotlin 中你可以使用 `lateinit` 和 `属性代理` 两种方式延迟 变量/常量 的初始化。
-
-### lateinit
-
-`lateinit` 关键字表示当前 变量 不会在声明时进行初始化操作，初始化操作会在后面进行，像是一种协议机制，告知编译器我会在后面使用该变量之前的恰当时机初始化该变量，不要进行警告⚠️。需要注意的是使用 `lateinit` 关键字有很多限制:
-
-- 必须是变量，即使用 `var` 关键字进行声明。   
-- 不能修饰可为 null 的类型，比如 `lateinit var str:String?` 是编译不通过的。   
-- 不能修饰基本数据类型。例如 `Int`,`Float`等
-
-```kotlin
-
-lateinit var stuLateInit:Student
-
-stuLateInit = Student("name",11)
-
-```
-
-### by lazy
-
-`by lazy` 是属性代理的基本运用，使用 `by lazy` 可以延迟初始化变量的值;
-
-- 只有常量，也就是使用 `val`才能使用 `by lazy` 延迟初始化
-
-```kotlin
-val stuByLazy:Student by lazy {
-    Student("name",11)
-}
-
-val mMyMsgTv:TextView by lazy {
-    findViewById(R.id.mTestTv) as TextView
-}
-
-// 当常量被使用时才进行初始化
-logError(stuByLazy.myCls)
-mMyMsgTv.text="文本"
-```
-
+ 
 ## 空值安全
 在进行 变量／常量 的初始化时能够感受到 `Kotlin` 在编译时对 `null` 值的控制，正是因为 `Kotlin` 的这些特性，使得 `Kotlin` 成为一种 `空安全(Null Safaty)` 的语言，遵循 `Kotlin` 的规范将有效的避免程序中的 `NPE`。
 

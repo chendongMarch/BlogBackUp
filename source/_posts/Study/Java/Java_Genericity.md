@@ -2,7 +2,6 @@
 layout: post
 title: Java 范型
 categories:
-  - Study
   - Java
 tags: Java
 keywords:

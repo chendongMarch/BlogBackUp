@@ -1,8 +1,7 @@
 ---
 layout: post
-title: Node.js基础1
+title: Node开发-1-基础
 categories:
-  - Study
   - Node
 tags: Node
 keywords:

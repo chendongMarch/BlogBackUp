@@ -1,8 +1,7 @@
 ---
 layout: post
-title: Python Django服务器搭建初体验
+title: Python Django服务器搭建
 categories:
-  - Study
   - Python
 tags: Python
 keywords:

@@ -2,7 +2,6 @@
 layout: post
 title: python发送get/post/put/delete请求
 categories:
-  - Study
   - Python
 tags: Python
 keywords:

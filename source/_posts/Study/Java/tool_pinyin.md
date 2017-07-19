@@ -2,7 +2,6 @@
 layout: post
 title: 汉字转换拼音
 categories:
-  - Study
   - Java
 tags:
   - Java

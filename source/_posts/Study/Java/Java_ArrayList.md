@@ -1,8 +1,7 @@
 ---
 layout: post
-title: ArrayList源码分析(Java&Android)
+title: ArrayList源码分析
 categories:
-  - Study
   - Java
 tags:
   - Java

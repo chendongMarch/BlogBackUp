@@ -2,7 +2,6 @@
 layout: post
 title: Swift基础语法1
 categories:
-  - Study
   - Swift
 tags: Swift
 keywords:

@@ -1,10 +1,12 @@
 ---
 layout: post
-title: TabLayout的使用详解
+title: TabLayout
 categories:
   - Android
   - View
-tags: Android
+tags: 
+  - Android
+  - View
 keywords:
   - Android
   - TabLayout

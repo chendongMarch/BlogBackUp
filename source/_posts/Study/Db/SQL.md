@@ -2,7 +2,6 @@
 layout: post
 title: SQL
 categories:
-  - Study
   - Db
 tags:
   - Database

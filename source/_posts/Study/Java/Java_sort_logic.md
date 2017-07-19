@@ -1,9 +1,7 @@
 ---
 layout: post
 title: 常见排序及搜索算法总结
-category: 技术
 categories:
-  - Study
   - Java
 tags: Java
 keywords:

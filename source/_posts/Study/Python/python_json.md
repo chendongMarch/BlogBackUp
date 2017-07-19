@@ -1,8 +1,7 @@
 ---
 layout: post
-title: Python Json相关
+title: Python Json
 categories:
-  - Study
   - Python
 tags: Python
 keywords:

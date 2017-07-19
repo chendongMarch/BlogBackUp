@@ -2,7 +2,6 @@
 layout: post
 title: Mac 安装 Mongdb
 categories:
-  - Study
   - Db
 tags:
   - Database

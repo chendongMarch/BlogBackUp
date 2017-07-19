@@ -2,7 +2,6 @@
 layout: post
 title: Hexo加密文章示例
 categories:
-  - Extensions
   - Hexo
 tags:
   - Extensions

@@ -1,10 +1,12 @@
 ---
 layout: post
-title: Android  CardView
+title: CardView
 categories:
   - Android
   - View
-tags: Android
+tags: 
+  - Android
+  - View
 keywords:
   - Android
   - CardView

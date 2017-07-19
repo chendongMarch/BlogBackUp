@@ -1,10 +1,12 @@
 ---
 layout: post
-title: Android RecyclerView
+title: RecyclerView
 categories:
   - Android
   - View
-tags: Android
+tags: 
+  - Android
+  - View
 keywords:
   - Android
   - RecyclerView

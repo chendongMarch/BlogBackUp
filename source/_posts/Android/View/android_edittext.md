@@ -1,10 +1,12 @@
 ---
 layout: post
-title: EditText 使用详解
+title: EditText
 categories:
   - Android
   - View
-tags: Android
+tags: 
+  - Android
+  - View
 keywords:
   - Android
   - EditText

@@ -1,8 +1,7 @@
 ---
 layout: post
-title: '加密解密（DES,AES）'
+title: DES,AES 加密解密
 categories:
-  - Study
   - Java
 tags: Java
 keywords:

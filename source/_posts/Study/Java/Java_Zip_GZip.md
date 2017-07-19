@@ -1,8 +1,7 @@
 ---
 layout: post
-title: 'Jave IO流之压缩流（zip,Gzip）'
+title: JaveIO流之压缩流(zip,Gzip)
 categories:
-  - Study
   - Java
 tags: Java
 keywords:

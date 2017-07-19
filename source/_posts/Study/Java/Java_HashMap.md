@@ -1,8 +1,7 @@
 ---
 layout: post
-title: HashMap源码分析（Android&Java）
+title: HashMap源码分析
 categories:
-  - Study
   - Java
 tags:
   - Java

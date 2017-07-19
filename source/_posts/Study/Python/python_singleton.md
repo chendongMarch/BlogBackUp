@@ -2,7 +2,6 @@
 layout: post
 title: Python实现单例
 categories:
-  - Study
   - Python
 tags: Python
 keywords:
