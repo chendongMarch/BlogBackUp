@@ -53,18 +53,19 @@ L.e(TAG, str)
 ## 可见度修饰符
 类，对象，接口，构造器，函数，属性以及属性访问器设值方法(访问器取值方法总与属性本身可见度相同，因此不需要控制其可见度)，都可以使用 **可见度修饰符** 。`Kotlin` 中的四种可见度修饰符：`private`、`protected`、`internal`、`public`，默认为 `public`。与 `Java` 不同的是少了 `default` 多了 `internal`。
 
-注意：局部变量， 局部函数，以及局部类，都不能指定可见度修饰符。
+注意：**局部变量， 局部函数，以及局部类，都不能指定可见度修饰符**。
 
 ### top-level
-`top-level`， 像 `class` 这种可以直接声明在包下。在 `Kotlin` 中，函数, 属性, 类, 对象, 接口都可以声明为 `top-level`。比如扩展函数和扩展属性就是 声明为 `top-level` 的。注意，这里说的是 `top-level` 级别声明，在这些声明内部再声明别的函数或者属性，不再讨论范畴，将在下一部分说明，对于 `top-level` 中的声明来说：
 
-> `public` 意为该声明在任何位置都可以访问，public 是默认的，可以省略。If you do not specify any visibility modifier, public is used by default, which means that your declarations will be visible everywhere;    
+`top-level`， 像 `class` 这种可以直接声明在包下。在 `Kotlin` 中，函数, 属性, 类, 对象, 接口都可以声明为 `top-level`。比如扩展函数和扩展属性就是 声明为 `top-level` 的。注意，这里说的是 `top-level` 级别声明，在这些声明内部再声明别的函数或者属性，不在讨论范畴，将在下一部分说明，对于 `top-level` 中的声明来说：
 
-> `private` 意为该声明只能在同一个源代码文件中访问。If you mark a declaration private, it will only be visible inside the file containing the declaration;   
+> `public` ：意为该声明在任何位置都可以访问，public 是默认的，可以省略。If you do not specify any visibility modifier, public is used by default, which means that your declarations will be visible everywhere;    
 
-> `internal` 意为该声明在同一个module的任意位置是可以访问的。If you mark it internal, it is visible everywhere in the same module;   
+> `private` ：意为该声明只能在同一个源代码文件中访问。If you mark a declaration private, it will only be visible inside the file containing the declaration;   
 
-> `protected` 对 `top-level` 的声明是无效的。protected is not available for top-level declarations.
+> `internal` ：意为该声明在同一个module的任意位置是可以访问的。If you mark it internal, it is visible everywhere in the same module;   
+
+> `protected` ：对 `top-level` 的声明是无效的。protected is not available for top-level declarations.
 
 ```kotlin
 package com.march.ktexample
@@ -87,15 +88,16 @@ public var MyVal = 10
 ```
 
 ### 类与接口
+
 在类和接口内部使用可见度修饰符
 
-> `private` 在类内(以及它的所有成员之间)可以访问。private means visible inside this class only (including all its members);
+> `private` ：在类内(以及它的所有成员之间)可以访问。private means visible inside this class only (including all its members);
  
-> `protected` 和 `private` 相同，而且在子类中也可以访问。protected — same as private + visible in subclasses too;
+> `protected` ：和 `private` 相同，而且在子类中也可以访问。protected — same as private + visible in subclasses too;
 
-> `internal` 在同一个 `module` 内，能访问该类的地方，也能访问该类的 `internal` 成员。any client inside this module who sees the declaring class sees its internal members;
+> `internal` ：在同一个 `module` 内，能访问该类的地方，也能访问该类的 `internal` 成员。any client inside this module who sees the declaring class sees its internal members;
 
-> `public` 在任何位置凡是能访问该类，则也能访问该类的 `public` 成员。any client who sees the declaring class sees its public members.
+> `public` ：在任何位置凡是能访问该类，则也能访问该类的 `public` 成员。any client who sees the declaring class sees its public members.
 
 注意： 在 Kotlin 中，外部类不能访问其内部类的 `private` 成员。如果你覆盖一个 `protected` 成员，并且没有明确指定可见度，那么覆盖后成员的可见度也将是 `protected`。
 
@@ -181,13 +183,13 @@ class Unrelated(o: OuterCls) {
 
 注意，指定类构造器可见度，你需要明确添加一个 `constructor` 关键字。
 
->`private` 指定为 `private` 的构造器只在类内可以访问。
+>`private` ：表示构造器只在类内可以访问。
 
->`protected` 类构造器可见度不支持 `protected`。
+>`protected` ：类构造器可见度不支持 `protected`。
 
->`internal` 表示同模块内可以访问该构造器。
+>`internal` ：表示同模块内可以访问该构造器。
 
->`public` 在任何位置都可访问，构造器默认 `public`。
+>`public` ：在任何位置都可访问，构造器默认 `public`。
 
 ```kotlin
 class MyCls1 private constructor(){
