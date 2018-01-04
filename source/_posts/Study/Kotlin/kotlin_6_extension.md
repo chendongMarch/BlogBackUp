@@ -14,13 +14,14 @@ keywords:
   - Extension
 abbrlink: d0378250
 date: 2017-07-20 08:57:00
+
 ---
 
 本文主要介绍 `Kotlin` 扩展 ( `Extension` )的相关内容。
 
 以下翻译自官方文档：
 
-与 `C#` 和 `Gosu` 类似， `Kotlin` 提供了向一个类扩展新功能的能力， 而且不必从这个类继承，也不必使用任何设计模式， 比如 `Decorator` 模式之类。 这种功能是通过一种特殊的声明来实现的， `Kotlin` 中称为 扩展(`extension`)。`Kotlin` 支持 扩展函数(`extension function`) 和 扩展属性(`extension property`)。
+> 与 `C#` 和 `Gosu` 类似， `Kotlin` 提供了向一个类扩展新功能的能力， 而且不必从这个类继承，也不必使用任何设计模式， 比如 `Decorator` 模式之类。 这种功能是通过一种特殊的声明来实现的， `Kotlin` 中称为 扩展(`extension`)。`Kotlin` 支持 扩展函数(`extension function`) 和 扩展属性(`extension property`)。
 
 **扩展** 是很多高级语言都具备的特性，使用扩展可以在不侵入原来类的基础上扩展新的功能，比如我们常用的 `Utils` 方法，就可以完全使用扩展方法来替代。
 <!--more-->

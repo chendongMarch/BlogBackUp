@@ -21,10 +21,12 @@ date: 2017-06-27 00:00:00
 - 基本属性的配置
 - `WebView` 缓存相关内容
 - `Java` 与 `Js` 的交互
-- `WebView` 打开本地应用(支付宝等)
-- 加载网络链接，本地 `sd` 卡路径，`assert` 目录路径的方法
-- `WebView` 支持下载等其它一些内容
+- 打开本地应用(支付宝等)
+- 加载远程网页，本地网页，`assert` 目录下的网页
+- 支持自定义下载
+- 自定义 `WebChromeClient` 本地化弹窗、文件选择
 
+更详细的扩展实现都可以在 [GitHub-WebKit](https://github.com/chendongMarch/DevKit/tree/85cb7c8c2426a40f929d1f152775f30acef6b678/devKit/src/main/java/com/march/dev/webkit) 中找到。
 <!--more-->
 
 ## 基本配置汇总
@@ -337,10 +339,102 @@ public static void setDefDownloadListener(final WebView webView) {
 
 ## WebChromeClient
 
+
+### 本地化弹窗
+
 `WebView` 默认是无法弹出 `alert()` 的，需要设置 `WebChromeClient`
 
 ```java
 mWebView.setWebChromeClient(new WebChromeClient());
+```
+
+从网页上弹起的弹窗与设备整体风格不是很搭，需要重载 `onJsAlert()`、`onJsConfirm()` 和 `onJsPrompt()` 来将弹窗本地化。`JavaScript` 与本地方法对应如下：
+
+```javascript
+// 提示 返回值为 undefind - onJsAlert()
+var result = alert("test");
+// 确认和取消 返回值为 true | false
+var result = confirm("test"); - onJsConfirm()
+// 用户输入 返回值为用户输入的内容 - onJsPrompt()
+var result = prompt("message","default");
+```
+以 `onJsConfirm()` 为例实现响应用户输入的方法，使用 `JsResult` 向 `JavaScript` 返回值，否则网页端会一直阻塞，不能操作。
+
+```java
+@Override
+public boolean onJsConfirm(WebView view, String url, String message, final JsResult result) {
+    new AlertDialog.Builder(view.getContext())
+            .setCancelable(false)
+            .setMessage(message)
+            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    result.confirm();
+                    dialog.dismiss();
+                }
+            })
+            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    result.cancel();
+                    dialog.dismiss();
+                }
+            })
+            .create()
+            .show();
+    return true;
+}
+```
+
+### 文件选择
+
+需要重载 `onShowFileChooser()` 方法，使用 `Intent` 打开文件选择，然后返回文件，在 `api21` 以上提供了一些特有的方法，在这个版本以下要自己适配。
+
+```java
+@Override
+public boolean onShowFileChooser(WebView webView,
+        ValueCallback<Uri[]> filePathCallback,
+        FileChooserParams fileChooserParams) {
+    if (mActivity == null)
+        return false;
+    /*
+    How to use:
+    1. Build an intent using {@link #createIntent}
+    2. Fire the intent using {@link android.app.Activity#startActivityForResult}.
+    3. Check for ActivityNotFoundException and take a user friendly action if thrown.
+    4. Listen the result using {@link android.app.Activity#onActivityResult}
+    5. Parse the result using {@link #parseResult} only if media capture was not requested.
+    6. Send the result using mFilePathCallback of {@link WebChromeClient#onShowFileChooser}
+    * */
+    Intent intent;
+    if (AppUtils.isOver(Build.VERSION_CODES.LOLLIPOP)) {
+        intent = fileChooserParams.createIntent();
+    } else {
+        intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+    }
+    mActivity.startActivityForResult(intent, MyWebView.WEB_REQ_CODE);
+    mMyWebView.mFilePathCallback = filePathCallback;
+    return true;
+}
+```
+
+在 `onActivityResult()` 中接受返回的数据.
+
+```java
+public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (requestCode != WEB_REQ_CODE)
+        return;
+    Uri[] uris;
+    if (AppUtils.isOver(Build.VERSION_CODES.LOLLIPOP)) {
+        uris = WebChromeClient.FileChooserParams.parseResult(resultCode, data);
+    } else {
+        uris = new Uri[]{data.getData()};
+    }
+    mFilePathCallback.onReceiveValue(uris);
+    mFilePathCallback = null;
+}
 ```
 
 ## todo

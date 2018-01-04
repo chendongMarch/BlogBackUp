@@ -21,6 +21,7 @@ keywords:
   - break
 abbrlink: 811551029
 date: 2017-06-04 00:00:00
+
 ---
 
 本篇主要介绍 `Kotlin` 的基础语法，控制流，内建数据类型等内容...
@@ -218,7 +219,9 @@ class MyCls4 internal constructor(){
 `Kotlin` 数值使用内建对象表示，所有数值类型继承自 `Number` 抽象类，`Number` 中定义了数值在各个类型之间转换的方法。
 
  `Long` 类型需要在数字末尾追加 **大写** 的 `L` 表示，如 `123L`；`Float` 类型需要在数字末尾追加 `f／F` 表示，如 `123.5F`。默认十进制计数，如： `123`；十六进制以 `0x` 开头，如 `0x1FA`；二进制以 `0b` 开头，如 `0b001101`；**不支持** 八进制表示。
-
+ 
+小数默认是 `Double` 类型，如果需要显式声明为 `Float`，需要加 `f/F` 后缀。
+  
 `Double` (64 bit) ；`Float` (32 bit) ；`Long` (64 bit) ；`Int` (32 bit) ；`Short` (16 bit) ；`Byte` (8 bit) ；
  
  

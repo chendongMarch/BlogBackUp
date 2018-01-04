@@ -39,12 +39,13 @@ archive_dir: archives
 category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
-skip_render:
-    - 'README.*'
-    - 'google26933bad87c2b3ba.*'
-    - 'baidu_verify_HnYctWkkrH.*'
-    - 'baidu_verify*.*'
-    - 'CNAME'
+skip_render: ['README.*','*.html','CNAME',static/**,static/*]
+    # - 'README.*'
+    # - 'google26933bad87c2b3ba.*'
+    # - 'baidu_verify_HnYctWkkrH.*'
+    # - 'baidu_verify*.*'
+    # - 'CNAME'
+    # - '*.html'
 
 # Writing
 new_post_name: :title.md # File name of new posts

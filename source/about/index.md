@@ -6,18 +6,11 @@ comments: true
 ---
 
 
-# Android Developer.
+微信：[二维码](#wechat)
 
-- 知其然(知道轮子怎么用)，知其所以然(知道轮子怎么造)
+QQ：1101873740
 
-## Contact Me
-
-Email:  **HelloWorld4x@gmail.com**
-
-微信：
-
-<img width=150 src='https://ooo.0o0.ooo/2017/06/30/5955cf4389ab6.jpg'/>
-
+Email：HelloWorld4x@gmail.com
 
 ## 推荐
 
@@ -35,4 +28,7 @@ Email:  **HelloWorld4x@gmail.com**
 
 
 
+---
 
+
+<img id="wechat" width=150 src='http://olx4t2q6z.bkt.clouddn.com/17-12-5/30531345.jpg'/>

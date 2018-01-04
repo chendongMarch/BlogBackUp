@@ -1,10 +1,11 @@
 ---
 layout: post
-title: CSS
+title: CSS 基础 1
 categories:
-  - CSS
+  - 前端
 tags:
   - CSS
+  - 前端
 keywords:
   - CSS
 comments: true
@@ -23,7 +24,8 @@ password:
 
 ## 开始
 
-```css
+```
+
 body{
     background-color:#d0e4fe;
 }
@@ -40,7 +42,8 @@ p{
 三个值: 第一个值为左上角, 第二个值为右上角和左下角，第三个值为右下角
 两个值: 第一个值为左上角与右下角，第二个值为右上角与左下角
 一个值: 四个圆角值相同
-``` 
+
+```
 
 ## 插入样式表
 

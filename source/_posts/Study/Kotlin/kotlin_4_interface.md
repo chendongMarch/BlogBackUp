@@ -9,6 +9,7 @@ keywords:
   - 接口
 abbrlink: 6a146f82
 date: 2017-06-08 00:00:00
+
 ---
 
 本文主要介绍 `Kotlin` 接口。

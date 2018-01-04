@@ -30,7 +30,9 @@ undefined
 `+` : 只要有字符串就是字符串拼接
 `-` : 如果有字符串，转换为数字计算
 
+空字符串，null，undefined，数字0，数字NaN 转化为 boolean 为 false，其他为true.
 
-`==` : 等于，类型相同，同 ===，类型不同，进行转换，null == undefined, number == string(转换为数字比较)，boolean == number(boolean转换为number),object == number/string(尝试将obj转为基本类型)
+`==` : 等于，类型相同，同 ===，类型不同，进行转换，null == undefined, number == string(转换为数字比较)，boolean == number(转换成bool比较),object == number/string(尝试将obj转为基本类型)
+
 `===` : 严格等于，类型不同，返回 false，类型相同 null === null,undefined === undefind,NaN != NaN,new Object != new Object
 

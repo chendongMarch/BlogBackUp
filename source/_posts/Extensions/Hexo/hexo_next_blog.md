@@ -31,6 +31,15 @@ highlight:
   tab_replace: 
 ```
 
+异常 `Cannot find module './build/Release/DTraceProviderBindings'` 不影响使用，但是看着难受，尝试
+
+```bash
+npm install hexo --no-optional
+// 如果上面的命令有效，可以不执行以下两条
+npm uninstall hexo-cli -g
+npm install hexo-cli -g
+```
+
 
 
 
@@ -282,25 +291,42 @@ local_search:
 
 ## 添加加载进度
 
-在 `Next` 主题下打开 `` 文件，在最后追加进度条
+在 `Next` 主题下打开 `/next/layout/_partials/head.swig` 文件，在最后追加进度条
+
+下面的代码只在浏览器显示，手机上不显示进度条
 
 ```css
 {# 添加进度条 #}
-
 <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
 <link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
 <style>
-    .pace .pace-progress {
+      .pace .pace-progress {
+        background: #0000; /*进度条颜色*/
+        height: 0px;
+      }
+      .pace .pace-progress-inner {
+         box-shadow: 0 0 0px #0000, 0 0 0px     #0000; /*阴影颜色*/
+      }
+      .pace .pace-activity {
+        display: none;
+        border-top-color: #00d9cf;    /*上边框颜色*/
+        border-left-color: #00d9cf;    /*左边框颜色*/
+      }
+
+    @media screen and (min-width: 800px) {
+      .pace .pace-progress {
         background: #00d9cf; /*进度条颜色*/
         height: 2px;
+      }
+      .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #00d9cf, 0 0 5px #00d9cf; /*阴影颜色*/
+      }
+      .pace .pace-activity {
+        border-top-color: #00d9cf;    /*上边框颜色*/
+        border-left-color: #00d9cf;    /*左边框颜色*/
+      }
     }
-    .pace .pace-progress-inner {
-         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
-    }
-    .pace .pace-activity {
-        border-top-color: #1E92FB;    /*上边框颜色*/
-        border-left-color: #1E92FB;    /*左边框颜色*/
-    }
+ 
 </style>
 ```
 
@@ -345,5 +371,25 @@ table-layout: auto;
 ...
 hide: true
 ---
+```
+
+
+## 网站背景 
+
+/Users/march/Documents/hexoBlog/themes/next/source/css/_custom/custom.styl
+
+```css
+body{
+	background-image: url(/images/background.png);
+}
+```
+
+
+## 头部显示
+
+/Users/march/Documents/hexoBlog/themes/next/source/css/_schemes/Mist/_header.styl
+
+```css
+.header { background: $whitesmoke; }
 ```
 

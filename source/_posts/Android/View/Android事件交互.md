@@ -19,6 +19,22 @@ Android事件交互,当用户手指触碰屏幕时会触发`onTouchEvent(MotionE
 ## 推荐阅读
 [简书－MotionEvent详解](http://www.jianshu.com/p/0c863bbde8eb)
 
+## 事件分发
+
+事件分发的 U 型结构，事件先从上往下分发，到达最底层后，从下向上处理，当然中间还有截断事件等流程。
+
+![](http://olx4t2q6z.bkt.clouddn.com/17-10-17/21765762.jpg)
+
+几个点：   
+
+只有 `ViewGroup` 具有 `onInterceptTOuchEvent()` 方法，用来截断事件的传递，当事件的传递被截断时，当前 `ViewGroup` 处理事件。
+
+`Activity` 和 `ViewGroup` 具有 `dispatchTouchEvent()` 方法，用来分发事件，如果返回 `false`，意为不分发，上层将会处理事件。
+
+`onTouchEvent()` 返回 `true` 表示当前控件处理事件，事件将不会继续向上传递，否则继续往上走。
+
+如果当 `ACTION_DOWN` 时返回 `false`，就不能接收到其他事件。
+
 ## 常用事件
 ```java
 MotionEvent.ACTION_DOWN:  0

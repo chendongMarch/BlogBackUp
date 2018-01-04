@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 将自己写的库发布到Jcenter
+title: 将自己写的库发布到 Jcenter
 categories:
   - Android
   - Publish
@@ -41,6 +41,7 @@ date: 2016-03-12 00:00:00
 
 
 ## 构建项目
+
 使用 `AS` 开发你的项目应该是有多个 `module` 的，通常你的项目至少应该有 `app` 这个 `module` ，创建一个 `library` 类型的 `module`（点击工具栏 File - > new moudle -> library,就可以建立一个library moudle)，因为我们要发布到 `maven` 的是你的 `library`，所以这个 `moudle` 需要有。然后你应该把这个项目发布到 `github`上去，后续需要填写项目的地址，当然这不是必选的。
 
 ## 配置 project/build.gradle
@@ -72,7 +73,7 @@ allprojects {
 
 需要在 `ext{}` 内配置项目的相关信息，在每个信息上我都加了比较详细的注释。
 
-完整的配置文件如下，引用了我 `git` 上面远程的一个上传脚本，当然你也将全部内容复制到本地进行修改，使用远程脚本是为了简化书写脚本的流程。
+完整的配置文件如下，引用了我 `git` 上面远程的一个上传脚本，当然你也将全部内容复制到本地进行修改，然后引用自己本地的上传脚本，使用远程脚本是为了简化书写脚本的流程。
 
 ```gradle
 apply plugin: 'com.android.library'
@@ -145,10 +146,12 @@ yourVersion = '1.0.1-beta4'
 // bintray.user=xxxx
 // bintray.apikey=xxxx
 // 你可以使用项目中的 local.properties
+
 yourBintrayUserPath = '/Users/march/AndroidRes/file/common_local.properties'
 ```
 
 ## 发布类库
+
 我在 `mac` 下开发，相关命令可能有所差异。
 
 打开 `terminal`，运行 `install` 命令
@@ -204,4 +207,5 @@ allprojects {
 
 
 ## 一些理解
+
 总体来说，最最重要的是打包上传的脚本，他负责打包源文件，生成 `aar`，生成 `doc` 然后上传到 `bintray`，我之前采用过别的方式打包类库，本文介绍的方法有个很大的优点就是把这个任务独立出来，写在 `bintrayUpload.gradle` 文件中，使用远程脚本，需要打包上传的 `library` 只需要配置一下类库相关信息，引用这个脚本就可以上传，不需要进行复杂的配置。

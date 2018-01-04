@@ -3,14 +3,15 @@
   "version": "0.0.0",
   "private": true,
   "hexo": {
-    "version": "3.3.8"
+    "version": "3.4.4"
   },
   "dependencies": {
-    "hexo": "^3.3.8",
+    "hexo": "^3.4.4",
     "hexo-abbrlink": "^2.0.4",
     "hexo-asset-image": "git+https://github.com/CodeFalling/hexo-asset-image.git",
     "hexo-autonofollow": "^1.0.1",
     "hexo-deployer-git": "^0.2.0",
+    "hexo-fs": "^0.2.2",
     "hexo-generator-archive": "^0.1.4",
     "hexo-generator-baidu-sitemap": "^0.1.2",
     "hexo-generator-category": "^0.1.3",

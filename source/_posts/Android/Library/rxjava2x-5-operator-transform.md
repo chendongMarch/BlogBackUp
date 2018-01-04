@@ -14,9 +14,8 @@ keywords:
   - 变换操作符
 comments: true
 abbrlink: cc39cbd0
-date: 2017-07-10 15:51:09
+date: 2017-07-11 
 password:
-
 ---
 
 本文以 `Observable` 为例，主要总结 `RxJava2.x` 关于 **变换** 操作相关操作符的用法。
