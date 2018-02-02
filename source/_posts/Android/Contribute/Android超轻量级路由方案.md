@@ -1,14 +1,13 @@
 ---
 layout: post
-title: Android 超轻量级路由方案
+title: Android 超轻量级路由方案 [开源]
 category: Android
 tags:
   - Android
-  - Contribute
+  - 开源
 abbrlink: 3272e02
 date: 2017-07-15 00:00:00
 keywords:
-
 ---
 
 本文主要介绍 **Android 轻量级路由方案** 的实现过程；

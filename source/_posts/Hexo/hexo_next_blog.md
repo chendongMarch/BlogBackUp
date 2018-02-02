@@ -12,9 +12,13 @@ abbrlink: 185805107
 date: 2017-03-02 00:00:00
 ---
 
-本文主要介绍如何使用 `Hexo+NexT` 搭建自己的博客，和在建站期间遇到的一些问题以及优化方式。
+本文主要介绍如何使用 `Hexo+NexT` 搭建自己的博客之后，和在建站期间遇到的一些问题以及优化方式。
 
 <!--more-->
+
+## 推荐阅读
+
+[Hexo+Next主题优化](https://zhuanlan.zhihu.com/p/30836436?utm_medium=social&utm_source=wechat_session)
 
 ## 弄懂 NexT
 `post.md` 中 `bool` 属性默认值是 `false`
@@ -50,6 +54,40 @@ npm install hexo-cli -g
 > [SEO优化，Google收录](http://www.jianshu.com/p/86557c34b671)
 
 
+## 加快访问速度
+
+因为是放在 GitHub 上面的，所以访问难免会慢。
+
+可以发布以后检查一下网页加载的瓶颈在哪里，然后做相应的优化。
+
+需要注意的是，放在本地的图片访问会变的很慢，因为资源在 GitHub 上面，所以尽量用七牛等的云存储，文章中使用 url。
+
+fontawsome 访问慢，替换 _config.yml 中的源，效果会好很多
+
+```
+vendors:
+  # Internal path prefix. Please do not edit it.
+  _internal: vendors
+  # Internal version: 2.1.3
+  jquery: //cdn.bootcss.com/jquery/2.1.3/jquery.min.js
+  # Internal version: 2.1.5
+  # Fancybox: http://fancyapps.com/fancybox/
+  fancybox: //cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js
+  fancybox_css: //cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css
+  # Internal version: 1.0.6
+  fastclick: //cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js
+  # Internal version: 1.9.7
+  lazyload: //cdn.bootcss.com/jquery_lazyload/1.9.7/jquery.lazyload.min.js
+  # Internal version: 1.2.1
+  velocity: //cdn.bootcss.com/velocity/1.3.1/velocity.min.js
+  # Internal version: 1.2.1
+  velocity_ui: //cdn.bootcss.com/velocity/1.3.1/velocity.ui.min.js
+  # Internal version: 0.7.9
+  ua_parser: //cdn.bootcss.com/UAParser.js/0.7.12/ua-parser.min.js
+  # Internal version: 4.4.0
+  # http://fontawesome.io/
+  fontawesome: //cdn.bootcss.com/font-awesome/4.6.2/css/font-awesome.min.css
+```
 
 ## 页面简单加密访问    
 
@@ -215,7 +253,7 @@ image_minifier:
 ## 添加 fork me on github
 
 修改 `hexoBlog/themes/next/layout/_layout.swig` 文件，在 `header`
-标签之前添加图片，图片样式可以到[该站点](https://github.com/blog/273-github-ribbons)选择颜色和位置等。`href` 中需要修改你为的 `github` 地址
+标签之前添加图片，图片样式可以到[丝带状的Fork](https://github.com/blog/273-github-ribbons) 或者是 [三角形的的Fork](http://tholman.com/github-corners/)选择颜色和位置等。`href` 中需要修改你为的 `github` 地址
 ```
  <div class="{{ container_class }} {% block page_class %}{% endblock %} ">
     <div class="headband"></div>
@@ -393,3 +431,162 @@ body{
 .header { background: $whitesmoke; }
 ```
 
+## 更改全局字体
+
+/Users/march/Documents/hexoBlog/themes/next/source/css/_variables/custom.styl
+
+```
+
+$font-size-base = 15.5px; // 默认是 16px 大小
+$font-family-headings = Georgia, sans // 标题，修改成你期望的字体族
+$font-family-base = "Microsoft YaHei", Verdana, sans-serif // 修改成你期望的字体族
+```
+
+## 文章中加图片，首页不显示图片
+
+/Users/march/Documents/hexoBlog/themes/next/layout/_macro/post.swig
+
+上面有个 gallery support，加上 not is_index 就可以不再首页显示，然后 md 文件顶部使用 photos 声明图片链接 photos: './img.png'，可以多张
+
+```
+{% if not is_index and post.photos and post.photos.length %}
+        <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+          {% set COLUMN_NUMBER = 3 %}
+          {% for photo in post.photos %}
+            {% if loop.index0 % COLUMN_NUMBER === 0 %}<div class="post-gallery-row">{% endif %}
+              <a class="post-gallery-img fancybox" href="{{ url_for(photo) }}" rel="gallery_{{ post._id }}" itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
+                <img src="{{ url_for(photo) }}" itemprop="contentUrl"/>
+              </a>
+            {% if loop.index0 % COLUMN_NUMBER === 2 %}</div>{% endif %}
+          {% endfor %}
+
+          {# Append end tag for `post-gallery-row` when (photos size mod COLUMN_NUMBER) is less than COLUMN_NUMBER #}
+          {% if post.photos.length % COLUMN_NUMBER > 0 %}</div>{% endif %}
+        </div>
+      {% endif %}
+```
+
+
+
+## 头像为圆形，可移动
+themes/next/source/css/_common/components/sidebar/sidebar-author.syl
+
+```css
+.site-author-image {
+  display: block;
+  margin: 0 auto;
+  padding: $site-author-image-padding;
+  max-width: $site-author-image-width;
+  height: $site-author-image-height;
+  border: $site-author-image-border-width solid $site-author-image-border-color;
+  
+  // 修改头像边框
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  // 设置旋转
+  transition: 1.4s all;
+}
+
+
+// 可旋转的圆形头像,`hover`动作
+.site-author-image:hover {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -transform: rotate(360deg);
+}
+```
+
+## 主页文章添加卡片背景
+themes/next/source/css/_custom/custom.styl
+
+```
+// 主页文章添加阴影效果
+.post{
+   margin-top: 0px;
+   margin-bottom: 60px;
+   padding: 25px;
+   -webkit-box-shadow: 0 0 5px rgba(180, 180, 180, .5);
+   -moz-box-shadow: 0 0 5px rgba(180, 180, 180, .5);
+}
+```
+
+## copyright
+/Users/march/Documents/hexoBlog/themes/next/layout/_macro/post-copyright.swig
+
+```
+{{ 
+       __('post.copyright.license_content', theme.post_copyright.license_url, theme.post_copyright.license)
+       }}
+```
+
+
+## 文章内链接
+
+themes/next/source/css/_custom/custom.styl
+
+```
+// 文章内链接文本样式
+.post-body p a{
+  color: #0593d3;
+  border-bottom: none;
+  border-bottom: 1px solid #0593d3;
+  padding-left:5px;
+  padding-right:5px;
+  &:hover {
+    color: #fc6423;
+    border-bottom: none;
+    border-bottom: 1px solid #fc6423;
+    text-decoration: none;
+    border-radius:0;
+  }
+}
+```
+
+
+## 统一添加“本文结束”标记
+
+在路径 /themes/next/layout/_macro 中新建 passage-end-tag.swig 文件,并添加以下内容：
+
+```
+<div>
+    {% if not is_index %}
+        <div style="text-align:center;color: #aaa;font-size:14px;margin-top:2rem;">------ 本文结束 🎉🎉 谢谢观看  ------</div>
+    {% endif %}
+</div>
+```
+
+打开 themes/next/layout/_macro/post.swig 文件,添加：
+
+```
+<div>
+    {% if not is_index %}
+    {% include 'passage-end-tag.swig' %}
+    {% endif %}
+ </div>
+```
+然后打开主题配置文件 _config.yml,在末尾添加：
+
+```
+# 文章末尾添加“本文结束”标记
+passage_end_tag:
+enabled: true
+```
+
+
+## 键盘触发侧栏
+
+/Users/march/Documents/hexoBlog/themes/next/source/js/src/motion.js
+
+```js
+$(document).ready(function () {
+  NexT.motion = {};
+
+  window.onkeydown=function(){
+　　　　if(13 == event.keyCode){
+　　　　　　NexT.utils.displaySidebar();
+　　　　}
+  };
+}
+```

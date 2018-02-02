@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Https 详解
+title: Https 详解 [网络]
 category: Android
 tags:
   - NetWork
@@ -14,9 +14,15 @@ keywords:
   - 网络通信
   - 网络安全
 date: 2017-12-13 22:56:00
+location: 杭州尚妆
+photos: http://olx4t2q6z.bkt.clouddn.com/18-2-1/45157165.jpg
 ---
 
 超文本传输安全协议（HTTPS，常称为HTTP over TLS/SSL）是一种通过计算机网络进行安全通信的传输协议。HTTPS经由HTTP进行通信，但利用SSL/TLS来加密数据包。HTTPS开发的主要目的，是提供对网站服务器的身份认证，保护交换数据的隐私与完整性。
+
+
+<!--more-->
+
 
 本文主要介绍  ：
 
@@ -25,8 +31,6 @@ date: 2017-12-13 22:56:00
 - 证书验证流程
 - Https 握手流程
 - Android 下进行 Https 访问
-
-<!--more-->
 
 
 ## 前言

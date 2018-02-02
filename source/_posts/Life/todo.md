@@ -13,6 +13,12 @@ tags:
 > TODO
 
 
+## Book
+
+- [ ] Js 小红书
+- [ ] 锋利的 Jq
+
+
 ## Blog
 
 - [ ] 图片处理先整理一篇关于涂鸦的
@@ -20,16 +26,18 @@ tags:
 
 ## Android Pro
 
-- [ ] 分享登录项目继续优化
+- [x] 分享登录项目继续优化
 - [ ] 支付项目
 - [ ] Kotlin Secure Files 项目
 - [ ] 图片处理项目推进
 - [ ] 适配器项目优化
 - [ ] 敏捷开发库整理
+- [ ] 二维码项目
+- [ ] weex 支持库
 
 ## Knowlege
 
-- [ ] Https 相关
+- [x] Https 相关
 - [ ] JVM 原理
 - [ ] 内存管理
 
@@ -40,12 +48,12 @@ tags:
 - [ ] EventBus 源码
 - [ ] AsyncTask 源码
 - [ ] Handler,HashMap 重新梳理
-
+- [ ] weex sdk 源码
 
 ## 扩展
 
 - [ ] 小程序
-- [ ] Weex 
+- [x] Weex 
 
 
 ## 前端
@@ -55,6 +63,7 @@ tags:
 - [ ] JavaScript 基础 - 看书,imooc
 - [ ] JQuery 
 - [ ] weex + vue - 文档、云盘视频
+
 
 ## Future
 

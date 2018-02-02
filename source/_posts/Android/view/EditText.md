@@ -1,6 +1,6 @@
 ---
 layout: post
-title: EditText
+title: EditText 
 categories:
   - Android
   - View
@@ -22,8 +22,10 @@ date: 2016-10-31 00:00:00
 
 <!--more-->
 
-## 2. 监听事件
-### 2.1 监听焦点变化
+## 监听事件
+
+监听焦点变化
+
 ```java
 etInput.setOnFocusChangeListener(new OnFocusChangeListener() {
     @Override
@@ -33,7 +35,8 @@ etInput.setOnFocusChangeListener(new OnFocusChangeListener() {
 });
 ```
 
-### 2.2 文本输入监听事件
+文本输入监听事件
+
 ```java
 etInput.addTextChangedListener(new TextWatcher() {
     @Override
@@ -52,15 +55,15 @@ etInput.addTextChangedListener(new TextWatcher() {
 ```
 
 
-## 3. 自定义EditText背景
+## 自定义EditText背景
 
 如下图所示，当离开当前EditText时，检查输入是否有问题，输入错误会显示红色
 
 <img src="http://7xtjec.com1.z0.glb.clouddn.com/et_bg_change.jpg"
 width ="50%" align=center />
 
+定义背景drawable文件
 
-### 3.1 定义背景drawable文件
 其他形态的背景也相对简单，只有一条线的这种背景drawable写起来还是需要研究一下的，直接上代码啦,主要是用了一个`selector -> layer-list -> shape`,在`select`属性改变时，改变线条的颜色。原本是一个矩形，然后将另外三个边偏移一下，只留下底边，达到线条显示的效果。
 
 ```xml
@@ -116,28 +119,12 @@ width ="50%" align=center />
 ```
 
 
-### 3.2 焦点改变时改变背景
-```
-etInput.setOnFocusChangeListener(new OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus) {
-                    String trim = etInput.getText().toString().trim();
-                    // 没有焦点&&有文字
-                    if (!hasFocus && trim.length() > 0) {
-                       etInput.setSelected(true);
-                    } else {
-                       etInput.setSelected(false);
-                    }
-                }
-            });
-```
-
-
-## 4. 带图片的Hint
+## 带图片的Hint
 如下图所示，实现带有图片的hint，使用 `SpannableString`实现 ，但是开始的效果不是很理想，图片不能很好的居中，使用重写`ImageSpan`的方法解决了这个问题
 ![](http://olx4t2q6z.bkt.clouddn.com/edittext_img_hint.jpeg)
 
-### 4.1 图片垂直居中的span
+### 图片垂直居中的span
+
 ```java
 class VerticalCenterImageSpan extends ImageSpan {
         VerticalCenterImageSpan(Drawable drawable) {
@@ -176,7 +163,7 @@ class VerticalCenterImageSpan extends ImageSpan {
     }
 ```
 
-### 4.2 设置hint
+### 设置hint
 ```java
 // 设置图文hint
     private void initEditText(EditText editText) {
@@ -189,7 +176,7 @@ class VerticalCenterImageSpan extends ImageSpan {
     }
 ```
 
-## 5 修改键盘的回车键
+## 修改键盘的回车键
 在xml配置
 
 ```xml

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 搭建 Weex 开发环境和集成到 Android 平台
+title: 搭建 Weex 开发环境和集成到 Android 平台 [Weex]
 categories:
   - weex
 tags: weex

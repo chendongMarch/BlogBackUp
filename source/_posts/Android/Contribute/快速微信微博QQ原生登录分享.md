@@ -1,10 +1,10 @@
 ---
 layout: post
-title: 快速接入微信微博QQ原生登录分享
+title: 快速接入微信微博QQ原生登录分享 [开源]
 category: Android
 tags:
   - Android
-  - Contribute
+  - 开源
 abbrlink: 3067853428
 date: 2017-07-07 00:00:00
 keywords:

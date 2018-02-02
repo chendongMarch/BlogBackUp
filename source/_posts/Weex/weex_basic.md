@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Weex 开发
+title: Weex 开发 [Weex]
 categories:
   - weex
 tags: weex
@@ -8,8 +8,9 @@ keywords:
   - weex
 abbrlink: 41ed2d2f
 date: 2017-11-16 11:13:00
+location: 杭州上装
+photos: http://olx4t2q6z.bkt.clouddn.com/18-2-1/83676814.jpg
 ---
- 
 
 
 前几天看知乎，`Evan You` 叫 `Weex` 作 `Vue-Native`😊

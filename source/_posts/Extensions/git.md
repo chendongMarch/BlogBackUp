@@ -8,9 +8,13 @@ tags:
   - Git
 abbrlink: b51d9f8e
 date: 2017-08-10 16:50:00
+location: 杭州
+photos: 
 ---
 
 Git 日常命令收集。
+
+对平常使用的 git 命令及版本管理中遇到的问题进行梳理。
 
 <!--more-->
 
@@ -59,4 +63,31 @@ git add fileName
 git add -A
 git commit -m "first commit"
 git push -u origin master
+```
+
+用户配置查看及更改
+
+```bash
+git config user.name
+git config email
+
+git config --global user.name = 'test'
+git config --global user.email = 'test@qq.com'
+```
+
+git remote
+
+```bash
+// 查看远程仓库名
+git remote -v
+
+
+// 添加 origin 仓库
+git remote add origin [url]
+
+// 删除 orgin 仓库
+git remote rm origin
+
+// 重置 orign 指向的仓库
+git remote set-url origin [url]
 ```

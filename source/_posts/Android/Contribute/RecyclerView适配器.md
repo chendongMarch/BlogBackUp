@@ -1,11 +1,11 @@
 ---
 layout: post
-title: RecyclerView Adapter
+title: RecyclerView Light Adapter [开源]
 categories:
   - Android
 tags:
   - Android
-  - Contribute
+  - 开源
 keywords:
   - Android
   - RecyclerView

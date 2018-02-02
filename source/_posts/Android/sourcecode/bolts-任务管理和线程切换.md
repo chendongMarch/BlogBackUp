@@ -1,6 +1,6 @@
 ---
 layout: post
-title: SourceCode-Android-blots
+title: Bolts 更简单任务管理和线程切换 [源码]
 category: Android
 tags:
   - Android
@@ -11,6 +11,8 @@ keywords:
   - Task
 abbrlink: 1dbbedd
 date: 2017-11-04 23:31:00
+photos: http://olx4t2q6z.bkt.clouddn.com/18-2-1/70364567.jpg
+location: 杭州尚妆
 ---
 
 尤塞恩·圣利奥·博尔特 `Usain St Leo Bolt`，牙买加短跑运动员，男子100米、男子200米以及男子400米接力赛的世界纪录保持人，同时是以上三项赛事的连续三届奥运金牌得主。
