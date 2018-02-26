@@ -35,17 +35,23 @@ https://docker.mirrors.ustc.edu.cn/
 
 ## docker command
 
+```bash
 docker pull jenkins:latest
-
+```
 
 以普通用户运行 bash
 
+```bash
 docker exec -it mycontainer bash
+```
 
 以 root 用户运行 bash
-docker exec -u 0 -it mycontainer bash
 
-运行 jenkins
+```bash
+docker exec -u 0 -it mycontainer bash
+```
+
+使用镜像创建一个容器
 
 ```bash
 sudo docker run -d --name jenkins-node -p 49002:8080 -v /Users/march/docker/jenkins-node:/var/jenkins_home jenkins-android
@@ -56,7 +62,7 @@ sudo docker run -d --name jenkins-node -p 49002:8080 -v /Users/march/docker/jenk
 ```bash
 -d => debug 模式，后台运行，不会占用终端，终端关闭也不会停止服务
 
---name jenkins_node => 别名，否则会是一个随机别名，别名可以用来管理该容器
+--name jenkins-node => 别名，否则会是一个随机别名，别名可以用来管理该容器
 
 -p 49002:8080 => 端口映射，将 8080 映射到 49002，后面使用 localhost:49002 访问
 

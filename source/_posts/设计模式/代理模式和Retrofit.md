@@ -21,8 +21,8 @@ location: 杭州尚妆
 
 代理模式 ：给某一个对象提供一个代理，并由代理对象控制对原对象的引用，它可以在屏蔽对目标对象访问的同时，进行自定义的扩展。
 
+
 <!--more-->
-## 推荐阅读
 
 [Graphic Design Patterns - 代理模式](http://design-patterns.readthedocs.io/zh_CN/latest/structural_patterns/proxy.html)
 

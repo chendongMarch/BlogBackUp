@@ -60,7 +60,7 @@ shadowsocks.json 配置文件
         "server_port": 8388,
         "local_address": "127.0.0.1",
         "local_port": 1080,
-        "password": "chendong911091",
+        "password": "********",
         "timeout": 300,
         "method": "aes-256-cfb",
         "fast_open": false

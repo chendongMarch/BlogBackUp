@@ -12,20 +12,21 @@ keywords:
   - Adapter
 abbrlink: 1632666977
 date: 2017-06-19 00:00:00
+photos: http://olx4t2q6z.bkt.clouddn.com/18-2-6/27323356.jpg
+location: 杭州
 ---
 
-`LightAdapter` 希望能够实现一个轻量级的、更容易使用和理解的`RecyclerView Adapter` 类库，吸取别人的长处，不断完善中。
+`LightAdapter` 的设计初衷是能够快速、简单的完成 `RecyclerView` 的数据适配工作，同时也对使用过程中的一些常用功能进行了扩展和封装。
 
-基本的数据加载与绑定由 `LightAdapter` 来实现，更多增强功能由多个模块 `Module` 分工合作完成，现在具有以下模块
-<!--more-->
-1. `HFModule`，实现为 `RecyclerView` 添加 `Header` 和 `Footer` 的功能，可以动态的显示和移除 `Header` 和 `Footer`。
-
-2. `LoadMoreModule`，实现到达列表底部自动触发监听加载更多数据。
-
-3. `TopLoadMoreModule`，实现到达列表顶部自动触发监听加载更多数据。
-
-4. `SelectorModule`，实现选择器功能，辅助简化列表单选和多选操作和数据更新和存储。
-
-5. `UpdateModule`，实现包装数据更新功能，在主线程更新数据，并提供更多更新数据的方法。
+随着功能的慢慢丰富，使用起来也变得越来越复杂，最后决定使用注解的方式对适配器进行配置。
+ 
+> - 基于注解实现基本的数据适配功能。
+> - 预加载，支持顶部、底部预加载更多数据。
+> - `Header & Footer`，为列表添加 头部 和 尾部。
+> - 单击、双击、长按事件支持。
+> - 自动 `UI` 线程更新数据，避免数据更新问题。
+> - 选择器功能扩展，主要针对点击选中这种场景。
 
 <!--more-->
+ 
+##

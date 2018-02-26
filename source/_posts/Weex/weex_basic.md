@@ -607,11 +607,11 @@ scroll-direction = vertical|horizontal
 支持 `scrollToElement`，见 [列表 scrollToElement](#扩展-API)
 
 
-## list + waterfull + cell + header
+## list + waterfall + cell + header
 
  
 
-把他们放在一起是因为他们一起完成了一个列表的显示，其实 `waterfull` 和 `list` 是一样的， 类似 `Android` 上面当年的 `ListView` 和 `GridView`，当然现在都已经被 `RecyclerView` 代替了，他们表现的都是一个 **垂直列表**，而 `waterfull` 支持多列的显示，
+把他们放在一起是因为他们一起完成了一个列表的显示，其实 `waterfall` 和 `list` 是一样的， 类似 `Android` 上面当年的 `ListView` 和 `GridView`，当然现在都已经被 `RecyclerView` 代替了，他们表现的都是一个 **垂直列表**，而 `waterfall` 支持多列的显示，
 
 使用 `cell` 生成列表的每一项，`header` 其实是 `cell` 的子类，它可以在滑动出屏幕时，固定在屏幕顶端，实现悬挂的效果。
  
@@ -663,9 +663,9 @@ ps：同样的效果，如果在 `cell` 上面使用 `position:fixed;` 在 `Andr
 
 👮如果是一个 `list` 套在 `div` 里面显示没问题，但是如果是 `waterfall` 就不行，看到有报错说无法解析 `auto`，当然设置成固定值也不行，解决方案是给  `waterfall` 一个固定的宽度，让他可以计算，就没问题了。
 
-瀑布流 `waterfull` 支持多列显示，因此相比 `list` 多了一些属性，但是 `list` 的属性和事件他也是支持的。
+瀑布流 `waterfall` 支持多列显示，因此相比 `list` 多了一些属性，但是 `list` 的属性和事件他也是支持的。
 
-「`waterfull`」 特有属性，`column-width` 和 `column-count` 不能同时指定为 `auto` 无法计算将无法显示。
+「`waterfall`」 特有属性，`column-width` 和 `column-count` 不能同时指定为 `auto` 无法计算将无法显示。
 
 ```javascript
 当某个属性指定为 auto 时，会使用下面的约束来计算 auto 对应的值。
@@ -680,15 +680,15 @@ column-gap: 间隔，可以使用指定宽度，也可以使用 normal 表示 32
 
 ### common
 
-「`waterfull` 和 `list`」 常用属性 - 支持列表统一的标签属性 [列表标签属性](#列表标签属性)
+「`waterfall` 和 `list`」 常用属性 - 支持列表统一的标签属性 [列表标签属性](#列表标签属性)
 
-「`waterfull` 和 `list`」 支持 `loadmore` 事件，见 [列表 loadmore](#列表事件)
+「`waterfall` 和 `list`」 支持 `loadmore` 事件，见 [列表 loadmore](#列表事件)
 
-「`waterfull` 和 `list`」 支持 `scroll` 事件，见 [列表 scroll](#列表事件)
+「`waterfall` 和 `list`」 支持 `scroll` 事件，见 [列表 scroll](#列表事件)
 
-「`waterfull` 和 `list`」 支持 `resetLoadmore`，见 [列表 resetLoadmore](#扩展-API)
+「`waterfall` 和 `list`」 支持 `resetLoadmore`，见 [列表 resetLoadmore](#扩展-API)
 
-「`waterfull` 和 `list`」 支持 `scrollToElement`，见 [列表 scrollToElement](#扩展-API)
+「`waterfall` 和 `list`」 支持 `scrollToElement`，见 [列表 scrollToElement](#扩展-API)
 
 ## 列表
 
@@ -754,7 +754,7 @@ loadmoreScroll(){
 
 使得列表滑动到指定的 node，需要使用 `dom module` 来操作
 
-ps：使用过程中发现 `waterfull` 组件的 `scrollToElement` 在 `andorid` 上是将指定项滚动到屏幕底部，`ios` 是滚动到顶部，`list` 和 `scroller` 正常，都是到顶部。
+ps：使用过程中发现 `waterfall` 组件的 `scrollToElement` 在 `andorid` 上是将指定项滚动到屏幕底部，`ios` 是滚动到顶部，`list` 和 `scroller` 正常，都是到顶部。
 
 ```js
 scrollToElement(node,options)
