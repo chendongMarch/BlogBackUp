@@ -513,7 +513,7 @@ themes/next/source/css/_custom/custom.styl
 ```
 
 ## copyright
-/Users/march/Documents/hexoBlog/themes/next/layout/_macro/post-copyright.swig
+themes/next/layout/_macro/post-copyright.swig
 
 ```
 {{ 

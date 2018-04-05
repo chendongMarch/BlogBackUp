@@ -22,7 +22,9 @@ tags:
 ## Blog
 
 - [ ] 图片处理先整理一篇关于涂鸦的
-- [ ] 
+- [x] 优化系列、内存、UI优化
+- [ ] Handler 重新整理一下
+- [ ] HashMap 重新整理一下
 
 ## Android Pro
 
@@ -30,10 +32,10 @@ tags:
 - [ ] 支付项目
 - [ ] Kotlin Secure Files 项目
 - [ ] 图片处理项目推进
-- [ ] 适配器项目优化
+- [x] 适配器项目优化
 - [ ] 敏捷开发库整理
 - [ ] 二维码项目
-- [ ] weex 支持库
+- [ ] weex cube 库
 
 ## Knowlege
 

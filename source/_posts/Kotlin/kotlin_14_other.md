@@ -102,7 +102,9 @@ operator fun <K, V> Map.Entry<K, V>.component2() = getValue()
 
 可以使用 `..` 运算符生成一个数列，对于 `Char`，`Int`，`Long` 类型数列由  `CharProgression`，`IntProgression`，`LongProgression` 实现，而 `Float` 和 `Double` 类型由 `ClosedFloatingPointRange<T>` 实现，因此在支持性上有所不同。
 
-使用简单的 `..` 运算符生成 `IntRange` 对象.
+使用简单的 `..` 运算符生成 `IntRange` 对象
+
+使用运算符 `a..b` 生成的数列的范围是 `[a,b]`
 
 ```kotlin
 val range = 1..10
