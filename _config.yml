@@ -182,3 +182,28 @@ image_minifier:
   optimizationLevel: 2
   pngquant: false
   progressive: false
+
+
+live2d:
+  enable: true
+  scriptFrom: local
+  pluginRootPath: live2dw/
+  pluginJsPath: lib/
+  pluginModelPath: assets/
+  model:
+    use: live2d-widget-model-z16
+    scale: 1
+    hHeadPos: 1
+    vHeadPos: 1
+  display:
+    superSample: 3
+    width: 60
+    height: 120
+    position: right
+    hOffset: 120
+    vOffset: -40
+  mobile:
+    show: false
+  react:
+    opacityDefault: 1
+    opacityOnHover: 1

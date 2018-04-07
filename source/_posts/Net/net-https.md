@@ -16,11 +16,11 @@ keywords:
 date: 2017-12-13 22:56:00
 location: 杭州尚妆
 photos: http://olx4t2q6z.bkt.clouddn.com/17-12-15/66994550.jpg
+badge: https://badge.juejin.im/entry/5a793902f265da4e9311611f/likes.svg?style=flat-square
 ---
 
 超文本传输安全协议（`HTTPS`，常称为 `HTTP over TLS/SSL`）是一种通过计算机网络进行安全通信的传输协议。`HTTPS` 经由 `HTTP` 进行通信，但利用 `SSL/TLS` 来加密数据包。`HTTPS` 开发的主要目的，是提供对网站服务器的身份认证，保护交换数据的隐私与完整性。
 
-[![](https://badge.juejin.im/entry/5a793902f265da4e9311611f/likes.svg?style=flat-square)](https://juejin.im/post/5a79389e6fb9a06358655b37)
 
 <!--more-->
 

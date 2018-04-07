@@ -20,6 +20,9 @@ date: 2018-03-21 09:58:00
 ```java
 Glide.with(context).load("url").thumbnail().into(imageView);
 ```
+
+<!--more-->
+s
 根据上面的代码，将内容分为以下几个章节：
 
 - `Glide` - 强大的顶层管理类
@@ -28,7 +31,7 @@ Glide.with(context).load("url").thumbnail().into(imageView);
 - `.thumbnail()` - 配置 `RequestBuilder`
 - `.into(target)` - 发起 `Request`
 
-<!--more-->
+
 
 ## 强大的 Glide
 

@@ -590,3 +590,42 @@ $(document).ready(function () {
   };
 }
 ```
+
+## 添加 live2d 看板娘
+
+添加一个小姐姐
+
+https://github.com/EYHN/hexo-helper-live2d/blob/master/README.zh-CN.md
+
+```bash
+npm install --save hexo-helper-live2d
+```
+
+hexo/_config.yml
+
+```bash
+live2d:
+  enable: true
+  scriptFrom: local
+  pluginRootPath: live2dw/
+  pluginJsPath: lib/
+  pluginModelPath: assets/
+  model:
+    use: live2d-widget-model-z16
+    scale: 1
+    hHeadPos: 1
+    vHeadPos: 1
+  display:
+    superSample: 3
+    width: 60
+    height: 120
+    position: right
+    hOffset: 120
+    vOffset: -40
+  mobile:
+    show: false
+  react:
+    opacityDefault: 1
+    opacityOnHover: 1
+```
+

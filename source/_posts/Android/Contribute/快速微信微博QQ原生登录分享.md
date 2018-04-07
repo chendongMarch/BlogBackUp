@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 快速接入 微信微博QQ钉钉 原生登录分享 [开源]
+title:  微信微博QQ钉钉登录分享 [开源]
 category: Android
 tags:
   - Android
@@ -9,9 +9,9 @@ abbrlink: 3067853428
 date: 2017-07-07 00:00:00
 keywords:
 location: 杭州拱墅-宝拍
+photos: http://olx4t2q6z.bkt.clouddn.com/18-2-6/30515419.jpg
+badges: ['https://badge.juejin.im/entry/5a793a405188257a82111092/likes.svg?style=flat-square','https://img.shields.io/github/stars/chendongMarch/SocialSdkLibrary.svg','https://img.shields.io/github/forks/chendongMarch/SocialSdkLibrary.svg']
 ---
-
-![](http://olx4t2q6z.bkt.clouddn.com/18-2-6/30515419.jpg)
 
 使用 **微博**、**QQ**、**微信**、**钉钉** 原生 `SDK` 接入，提供这些平台的登录、分享功能支持。针对业务逻辑对各个平台的接口进行封装，对外提供一致的表现，在减轻接入压力的同时，又能获得原生 `SDK` 最大的灵活性。
 
@@ -24,16 +24,6 @@ location: 杭州拱墅-宝拍
 🎉  2017.12.12 对代码进行简单重构并测试，发布第一个稳定版本 1.0.0
     
 🎉  2018.2.12 支持钉钉分享
-
-<div style="width:100%;display: flex;height:30px;">
-
-<img style="margin-right:20px;" src="https://badge.juejin.im/entry/5a793a405188257a82111092/likes.svg?style=flat-square"/>
-
-<img style="margin-right:20px;"  src="https://img.shields.io/github/stars/chendongMarch/SocialSdkLibrary.svg"/>
-
-<img  style="margin-right:20px;"  src="https://img.shields.io/github/forks/chendongMarch/SocialSdkLibrary.svg"/>
-
-</div>
 
 <!--more-->
 

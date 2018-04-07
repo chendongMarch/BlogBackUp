@@ -14,6 +14,7 @@ abbrlink: 1632666977
 date: 2017-06-19 00:00:00
 photos: http://olx4t2q6z.bkt.clouddn.com/18-2-6/27323356.jpg
 location: 杭州
+badges: ['https://badge.juejin.im/entry/5a793a405188257a82111092/likes.svg?style=flat-square','https://img.shields.io/github/forks/chendongMarch/LightAdapter.svg','https://img.shields.io/github/stars/chendongMarch/LightAdapter.svg']
 ---
 
 `LightAdapter` 的设计初衷是能够快速、简单的完成 `RecyclerView` 的数据适配工作，同时也对使用过程中的一些常用功能进行了扩展和封装。
@@ -23,16 +24,6 @@ location: 杭州
 [GitHub - LightAdapter](https://github.com/chendongMarch/LightAdapter)
 
 
-
-<div style="width:100%;display: flex;height:30px;">
-
-<!--<img style="margin-right:20px;" src="https://badge.juejin.im/entry/5a793a405188257a82111092/likes.svg?style=flat-square"/>-->
-
-<img style="margin-right:20px;"  src="https://img.shields.io/github/stars/chendongMarch/LightAdapter.svg"/>
-
-<img  style="margin-right:20px;"  src="https://img.shields.io/github/forks/chendongMarch/LightAdapter.svg"/>
-
-</div>
 
 <!--more-->
 
