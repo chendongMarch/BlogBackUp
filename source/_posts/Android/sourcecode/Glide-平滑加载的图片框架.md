@@ -22,7 +22,7 @@ Glide.with(context).load("url").thumbnail().into(imageView);
 ```
 
 <!--more-->
-s
+
 根据上面的代码，将内容分为以下几个章节：
 
 - `Glide` - 强大的顶层管理类
@@ -30,6 +30,10 @@ s
 - `.load(url)` - 创建 `RequestBuilder`
 - `.thumbnail()` - 配置 `RequestBuilder`
 - `.into(target)` - 发起 `Request`
+- 开始加载资源
+- 缓存和数据源
+- 数据转换
+- 总结
 
 
 
@@ -43,22 +47,12 @@ s
 Glide.java
 
 GenericLoaderFactory loaderFactory;   // 工厂管理类，负责 ModelLoader 的注册和缓存实现
-TranscoderRegistry transcoderRegistry = new TranscoderRegistry(); // 工厂管理类，负责 DataLoadProvider 的管理
+TranscoderRegistry transcoderRegistry = new TranscoderRegistry(); // ResourceTranscoder 工厂管理类
 DataLoadProviderRegistry dataLoadProviderRegistry; // DataLoadProvider 注册管理
 
-Engine engine;
-BitmapPool bitmapPool;
-MemoryCache memoryCache;
-DecodeFormat decodeFormat;
-ImageViewTargetFactory imageViewTargetFactory = new ImageViewTargetFactory()
-
-
-CenterCrop bitmapCenterCrop;
-GifBitmapWrapperTransformation drawableCenterCrop;
-FitCenter bitmapFitCenter;
-GifBitmapWrapperTransformation drawableFitCenter;
-Handler mainHandler;
-BitmapPreFiller bitmapPreFiller;
+Engine engine; // 负责从内存缓存、文件缓存、数据源中获取资源
+BitmapPool bitmapPool; // 用来控制复用 Bitmap 的内存空间
+MemoryCache memoryCache; // Lru 内存缓存
 ```
 
 ## Glide.with()
@@ -80,7 +74,7 @@ BitmapPreFiller bitmapPreFiller;
 需要做到这些，就需要在 `Activity` 的各种方法中调用框架对应的方法，但是这样造成很强的耦合，使用起来会变的很繁琐，不过 `Glide` 使用了一种比较巧妙的办法那就是在对应的 `Activity` 中添加一个空的 `Fragment`，这个 `Fragment` 不会绘制任何 `UI`，但是由于 `Fragment` 和 `Activity` 的特殊关系，当这个 `Fragment` 被添加到 `Activity` 中时，他的生命周期就与 `Activity` 的生命周期同步了，内部只需要关注 `Fragment` 的生命周期即可，而对外是完全封闭的。
 
 在 `Glide` 内部提供了 `RequestManagerFragment` 和 `SupportRequestManagerFragment` 对 `v4.Fragment` 做了兼容，他们主要关注的是如下方法：
- 
+
 ```java
 // 生命周期方法
 onAttach()
@@ -236,7 +230,7 @@ DrawableTypeRequest(Class<ModelType> modelClass, ModelLoader<ModelType, InputStr
             buildProvider(glide, streamModelLoader, fileDescriptorModelLoader, GifBitmapWrapper.class,
                     GlideDrawable.class, null),glide, requestTracker, lifecycle);
 }
-                    
+
 DrawableRequestBuilder(Context context, Class<ModelType> modelClass,
         LoadProvider<ModelType, ImageVideoWrapper, GifBitmapWrapper, GlideDrawable> loadProvider, Glide glide,
         RequestTracker requestTracker, Lifecycle lifecycle) {
@@ -253,7 +247,7 @@ DrawableRequestBuilder(Context context, Class<ModelType> modelClass,
 > `.thumbnail()` 等配置项都是 `GenericRequestBuilder` 的成员方法，返回值是 `GenericRequestBuilder`，达到链式调用的目的。
 
 这里只是用 `thumbnial` 来代指一系列的配置请求的方法，实际上配置项要更多，大致列举如下：
- 
+
 ```java
 // 控制图片尺寸
 thumbnail(float size) // 0-1,先加载缩略图，内部实现是创建一个新的 thumbnailRequest
@@ -276,7 +270,7 @@ transform() // 对图片进行变化，比如圆形裁剪
 dontTransform() // 去掉变换效果
 transcoder()
 animate() // 加载动画
-dontAnimate() // 去掉加载动画	
+dontAnimate() // 去掉加载动画
 
 // 占位图
 placeholder() // 加载时占位图
@@ -377,8 +371,9 @@ private Request buildRequestRecursive(Target<TranscodeType> target, ThumbnailReq
 }
 ```
 
+## 开始加载资源
 
-## 开始加载请求
+其实这里的请求是一个更广义上的概念，虽然我们大多情况下会加载一个网络图片，但是这里的请求意思是对资源的请求，这个资源可能是一个文件、一张网络图片或者是一个 `Uri`，不要先入为主的觉得是一个网络请求。
 
 到目前为止，经历了一系列的配置，请求被构建出来了，接下来是加载请求阶段，在这之前可以对之前的一些关键点做一下总结：
 
@@ -388,6 +383,8 @@ private Request buildRequestRecursive(Target<TranscodeType> target, ThumbnailReq
 在发起请求时会调用 `onSizeReady` 方法，在方法内部，从 `DataLoadProivder` 中取得 `ModelLoader` 进而获取到 `DataFetcher` 他是获取数据的工具类，然后还有 `ResourceTranscoder` 用来转码操作。
 
 ```java
+GenericRequest.java
+
 public void onSizeReady(int width, int height) {
     status = Status.RUNNING;
     width = Math.round(sizeMultiplier * width);
@@ -402,45 +399,180 @@ public void onSizeReady(int width, int height) {
 }
 ```
 
-最关键的地方是使用 `engine.load()` 触发加载，这个 `Engine` 是 `Glide` 的成员，之前被传递到 `Request` 中的。
+## 缓存和数据源
 
-## 缓存
+最关键的地方是使用 `engine.load()` 触发加载，这个 `Engine` 是 `Glide` 的成员，之前被传递到 `Request` 中的，简单看一下 `load()` 方法中的伪代码，表面看起来分成了 3 步：
 
-总共分了多级缓存
+-  loadFromCache()
+-  loadFromActiveResources()
+-  EngineJob.run()
 
-- LruCache<Key,Resource> 缓存，在超出指定内存时，会进行清理
-- Map<Key,WeakRef<Resource>> 虚引用做的缓存，正在使用的照片会被加入该缓存，除非系统内存不够了，尽量避免被回收
-- DiskLruCache 做的文件缓存
-- Source 源，可能是文件，可能是网络图，他是最原始的目标文件
+前面两步是从内存缓存中获取数据，`EngineJob`  内部则是从文件缓存和数据源中获取，因为涉及耗时操作，这部分会在线程池中执行。
+
+```java
+Engine.java
+
+public <T, Z, R> LoadStatus load(...) {
+    EngineKey key = ...
+    // 内存中获取
+    EngineResource<?> cached = loadFromCache(key, isMemoryCacheable);
+    if (cached != null) {
+        cb.onResourceReady(cached);
+        return null;
+    }
+    // 内存中获取
+    EngineResource<?> active = loadFromActiveResources(key, isMemoryCacheable);
+    if (active != null) {
+        cb.onResourceReady(active);
+        return null;
+    }
+    // 该任务是不是正在执行
+    EngineJob current = jobs.get(key);
+    if (current != null) {
+        current.addCallback(cb);
+        return new LoadStatus(cb, current);
+    }
+    // 从文件缓存和数据源获取、包含资源的编解码等
+    EngineJob engineJob = ...
+    EngineRunnable runnable = new EngineRunnable(engineJob, decodeJob, priority);
+    jobs.put(key, engineJob);
+    engineJob.addCallback(cb);
+    engineJob.start(runnable);
+    return new LoadStatus(cb, engineJob);
+}
+```
+
+当使用 `engine.load()` 时，就会开始获取资源，资源的获取会按照 `内存缓存 -> 文件缓存 -> 原始数据` 这样的顺序去查找,  `Glide` 采用还是常用的内存、文件两级缓存的方式，针对资源返回的位置，可以分为如下几个来源：
+
+- `LruCache<Key,Resource>` - 基于 Lru 算法的内存缓存，在超出指定内存时，会进行清理
+- `Map<Key,WeakRef<Resource>>` - 虚引用做的内存缓存，系统内存不足时回收资源
+- `DiskLruCache` - 基于 Lru 算法做的文件缓存
+- `Source` - 数据源，可能是文件，可能是网络图，他是最原始的目标文件
+
+其中内存缓存和文件缓存对应的数据结构如下：
+
+```java
+Engine.java
+
+private final MemoryCache cache;  // Lru 缓存
+private final Map<Key, WeakReference<EngineResource<?>>> activeResources; //  虚引用缓存
+private final LazyDiskCacheProvider diskCacheProvider; // 文件 Lru 缓存
+```
 
 
-DecodeCahceResult 从文件缓存中获取
+### 内存缓存
 
-- load(key) 
-- transcode
+内存缓存方案的选择，考虑如下几个方面：
 
-DecodeCahceSource
+- `LruCache` 的优点是可以有效的将内存控制在一个范围内，并优先保留最后使用的图片，缺点是当内存到达界限时就会开始回收，长列表时有可能会将正在显示的图片回收掉。
+- `WeakRef` 的优点是在不造成内存溢出的前提下，上限较高，资源的回收由系统管理，只有在内存不足时才会回收资源，缺点是可能造成占用大量的内存，触发系统 `gc` 造成断崖式的内存回收。
+- 当产生大量加载事件时，会不停的开辟和回收资源占用的内存空间，造成显著的内存抖动。
 
-- laod(key.origin)
-- transform
-- saveToResultCache
-- transcode
+更优化的内存缓存方案应该满足 3 个条件:
 
-DecodeSource
+- 对最近使用资源更宽容，给予这部分资源更充足的内存空间，保证正在使用的图片不会被回收
+- 对没有使用的资源有一个上限管控，既能保证缓存的优势，又不会对内存空间造成压力
+- 减少内存空间的开辟操作，能够尽量复用已经开辟好的内存空间
 
-- fetcher.loadData()
-- decodeSource
-	- source -> saveData -> put(key.origin)
-	- result -> sourceDecoder.decode()
-- transform
-- saveToResultCache
-- transcode
+`Glide` 选择的缓存方案是将内存缓存分成两级，同时用一个 `BitmapPool` 来保留已经开辟的内存空间:
 
+- **activeResouces** `Map<Key, WeakRef<Resource>>` 用来存储正在使用的资源
+- **lruCache** `LruCache<Key, Resource>` 用来存储没有引用计数的资源
+- **BitmapPool** `Lru<Bitmap>` 每次创建 `Bitmap`  都会优先从 `BitmapPool` 中查找可以复用的内存空间
+
+**资源的存储**：当从文件缓存或 `Source` 中获取到目标资源时，存储到 `activeResouces` 中，因为该资源处于被获取使用的状态，当然除了 `activeResouces` 的 `WeakRef` 它还被展示它的 `View` 持有，具有一个强引用，这保证了即使发生 `gc` 也只会回收掉 `activeResouces` 中那些不被 `View` 引用的资源。
+
+**资源的获取**：先从 `lruCache` 中获取，拿到资源后从 `lruCache` 删除，加入 `activeResouces` 中，保证该资源不会因为达到 `lruCache` 的内存上限而被回收。
+
+**资源的回收**：当资源被触发回收时，计算引用数，没有引用就从 `activeResouces` 移除，存储到 `lruCache` 中，方便下次可以从内存中读取到。
+
+### 文件缓存
+
+文件缓存选择的是 `DiskLruCache` ，是一个基于 `Lru` 算法的文件缓存方案，在 Android 上有比较广泛的应用，原理这里不展开说了。
+
+文件缓存的查找在 `EngineRunnable` 的 `run()` 方法中：
+
+```java
+EngineRunnable.java
+
+public void run() {
+    resource = decode();
+}
+
+private Resource<?> decode() throws Exception {
+    if (isDecodingFromCache()) {
+        return decodeFromCache();
+    } else {
+        return decodeFromSource();
+    }
+}
+```
+
+从文件缓存读取和从数据源读取都在 `run()` 方法中实现，这里加载的策略取决于一个 `Stage` 的枚举类型，他有两个值：
+
+- **CACHE**：表示从文件缓存中读取资源
+- **SOURCE**：表示从数据源中读取资源，数据源是指网络资源、原始文件等
+
+初始值永远是 `Stage.CACHE` 意味着总是尝试先从文件缓存中读取，注意这个枚举决定了是从 **缓存文件** 加载还是从 **数据源** 加载，不要和下面的弄混了。
+
+当从文件缓存中读取时，又需要关注一个 `DiskCacheStrategy` 的枚举，在构建 `Glide` 的请求时我们可能会配置这个加载策略，它由两个内部字段构成
+
+- **cacheSource**：意为缓存和加载原始缓存数据
+- **cacheResult**：意为缓存和加载转换后的缓存数据，这个转换包括根据宽高压缩、transform 转换等
+
+对于文件缓存加载来说，如果不 **强制指定** 总是优先 `cacheResult` 如果获取不到再 `cacheSource` 从原始缓存数据中加载并作转换操作，注意这个枚举决定了是加载 **原始文件** 还是加载 **转换后** 的文件。下面分为 `result` 和 `source` 两个流程比较一下差别:
+
+- **result**：`Key` -> `Disk 获取` -> `cacheDecoder` 解码 -> `transcode()` 转码 -> 返回数据
+- **source**：`Key.getOriginKey()` -> `Disk` 获取 -> `cacheDecoder` 解码 -> 使用 `Key` 写入文件缓存 -> `transcode()` 转码 -> 返回数据
+
+对比上面的过程，主要取决于 `Key`， 这个 `Key` 是使用 `id/signature/width/height` 等组成的联合键，而 `Key.getOriginKey()` 则只比对 `id/signature` 从而达到缓存原始数据 （`Source`）和 结果数据 (`Result`)
+
+
+### 数据源
+
+当使用 `State.CACHE` 策略从文件缓存中加载失败时，将会转换成 `Stage.SOURCE`，并重新运行当前 `EngineRunnable`，从而开始从数据源加载数据
+
+```java
+private void onLoadFailed(Exception e) {
+    if (isDecodingFromCache()) {
+        stage = Stage.SOURCE;
+        manager.submitForSource(this);
+    } else {
+        manager.onException(e);
+    }
+}
+```
+
+数据源数据的加载由 `DataFetcher` 来完成，`DataFetcher` 是在 `Glide` 初始化时注册的 `ModelLoaderFactory` 生成的，这个在后面会再细说。
+
+借助 `fetcher.loadData()` 可以获取到数据源的原始数据，此时根据 `DiskCacheStrategy` 的不同，也分为两个不同的缓存渠道：
+
+- **result**：`Key` -> `SourceDecoder` 解码原始数据 -> `transform()` 转换 -> 使用 `Key` 写入文件缓存 -> `transcode()` 转码
+- **source**：`Key.getOriginalKey()` -> `SourceEncoder` 编码写入 `Disk` -> `Disk` 获取 -> `cacheDecoder` 解码 -> `transform()` 转换 -> 使用 `Key` 写入文件缓存 -> `transcode()` 转码
+
+
+### 关于缓存的总结
+
+上面涉及了一些编解码、转换转码等操作，我们不需要格外关注，只需要知道他是对数据的一种变换，我们在理解整个流程时，不需要太关注那些编解码、写文件等操作，只要能够理清整体缓存流程，理解其中的设计原理。
+
+为了更好的理解，下面对一些步骤进行简单的解释：
+
+- `Key` 是由 `id/signature/width/height` 组成的联合键，作为缓存文件的键值，他是非常精确的，而 `Key.getOriginKey()` 只关心 `id/signature`，是更通用的键值。
+- `fetcher` 类似数据加载器，提前配置好的，由 `GenericLoaderFactory` 管理，用来加载数据，可以简单理解为通过网络 `Url` 转换成 `InputStream` 流的过程
+- `SourceDecoder 解码原始数据` 是说将 `fetcher` 拿回来的数据进行解码，可以简单理解为将 `InputStream` 转换为 `Bitmap` 的过程
+- `SourceEncoder 编码写入 Disk` 将 `fetcher` 返回的数据进行编码操作，输出到 `OutputStream`，可以简单理解为网络请求返回的 `InputStream` 转换成 `outputStream` 的过程。
+- `cacheDecoder` 解码，`cacheEncoder` 是之前就配置好的一个转码器，由 `DataLoadProvider` 提供，主要负责将文件转换成目标数据，可以简单理解为将文件转为 `Bitmap` 类似的操作
+- `transcode()` 转码，这是一个转码操作，也是之前就配置好的，由 `DataLoadProviderRegistry` 管理，可以简单理解为将 `Bitmap` 转换为 `GlideDrawable` 这种数据的过程
+- `transform() 转换` 在构建 `Glide` 请求时配置的，是自定义，比如转换成圆角、圆形图之类的操作
+
+针对 **内存 -> 文件 -> 数据源** 的整个流程，整理一个流程图，展示一下整个数据加载的过程。
+
+![](http://olx4t2q6z.bkt.clouddn.com/18-4-16/62517595.jpg)
 
 
 ## 数据转换
 
-前面提到了几种进行数据转换的类，这里汇总整理介绍，更直观的归纳一下这几种数据转化的作用和使用的时机。
+上面页陆陆续续提到了一些编解码前面提到了几种进行数据转换的类，这里汇总整理介绍，更直观的归纳一下这几种数据转化的作用和使用的时机。
 
 - `ModelLoader` 负责将 `String`、`Uri`、`int`、`URL` 等等类型转化成 `InputStream` 和 `ParcelFileDescriptor`，是整个转化流程的第一步，他的原始数据类型都是我们调用 `load()` 方法里面支持的数据类型。
 - `DataLoadProvider` 负责编解码的转换，它提供 `Encoder` 和 `Decoder`，可以将  `InputStream` 和 `ParcelFileDescriptor` 转换成 `Bitmap`、`GifDrawable` 等，很明显，是接着上一步进行的一个编解码操作，他的原始数据类型，就是 `ModelLoader` 的目标数据类型。
@@ -449,11 +581,12 @@ DecodeSource
 
 ### ModelLoader
 
-`ModelLoader` 可以理解为数据对象加载器，他负责将某种数据类型转换为另一种数据类型，例如当调用 `load("url")` -> `fromString()` -> `loadGeneric(String.class)` 这样一个调用链时，结合上面的代码我们其实获得的是如下两个 `Loader`，分别是将 `String->InputStream` 和 `String-> ParcelFileDescriptor`，他们作为 `DrawableTypeRequest` 的构造器参数，在后面会被使用到。
+`ModelLoader` 用来针对某种数据源和返回数据创建一个 `DataFetcher` 用来请求数据，这里的请求是对数据源的请求，不仅仅限于网络请求。
 
 ```java
-ModelLoader<String, InputStream> streamModelLoader = Glide.buildStreamModelLoader(modelClass, context);
-ModelLoader<String, ParcelFileDescriptor> fileDescriptorModelLoader = 	Glide.buildFileDescriptorModelLoader(modelClass, context);
+public interface ModelLoader<T, Y> {
+    DataFetcher<Y> getResourceFetcher(T model, int width, int height);
+}
 ```
 
 `ModelLoader` 的类型很多，他们统一被 `GenericLoaderFactory` 管理，使用的工厂模式，在使用时使用对应的工厂类创建，同时加入缓存，获取时优先从缓存中获取，他是 `Glide` 的成员，在 `Glide` 初始化时被创建，并注册常用的 `ModelLoaderFactory`，这个类主要做两件事情：
@@ -521,8 +654,6 @@ public class GenericLoaderFactory {
 最后，这个注册表是可扩展的，你可以给他注册自己的 `ModelLoaderFactory` 来解析合适的数据类型，当然针对常用的类型，`Glide` 类中已经注册了默认的许多工厂。
 
 ```java
-Glide.java
----	
 register(File.class, ParcelFileDescriptor.class, new FileDescriptorFileLoader.Factory());
 register(File.class, InputStream.class, new StreamFileLoader.Factory());
 register(int.class, ParcelFileDescriptor.class, new FileDescriptorResourceLoader.Factory());
@@ -538,10 +669,95 @@ register(GlideUrl.class, InputStream.class, new HttpUrlGlideUrlLoader.Factory())
 register(byte[].class, InputStream.class, new StreamByteArrayLoader.Factory());
 ```
 
+这样理解起来稍微有些抽象，我们来看一个网络相关的注册实现，`GlideUrl` 是一个包装，所有和网络相关的都会最终转成 `GlideUrl` ：
+
+```java
+register(GlideUrl.class, InputStream.class, new HttpUrlGlideUrlLoader.Factory());
+```
+
+看一下 `HttpUrlGlideUrlLoader` 的实现，实现一个方法 `getResourceFetcher()`，返回 `HttpUrlFetcher` 这个类主要用来使用 `HttpUrlConnection` 发起网络请求，请求图片返回 `InputStream` 流。
+
+```java
+public class HttpUrlGlideUrlLoader implements ModelLoader<GlideUrl, InputStream> {
+
+    private final ModelCache<GlideUrl, GlideUrl> modelCache;
+
+    public static class Factory implements ModelLoaderFactory<GlideUrl, InputStream> {
+        private final ModelCache<GlideUrl, GlideUrl> modelCache = new ModelCache<GlideUrl, GlideUrl>(500);
+        @Override
+        public ModelLoader<GlideUrl, InputStream> build(Context context, GenericLoaderFactory factories) {
+            return new HttpUrlGlideUrlLoader(modelCache);
+        }
+    }
+
+    @Override
+    public DataFetcher<InputStream> getResourceFetcher(GlideUrl model, int width, int height) {
+        return new HttpUrlFetcher(url);
+    }
+}
+```
+
+总结：可以发现 `ModelLoader` 主要就是用来对源数据进行一个请求操作。
+
 ### DataLoadProvider
 
 `DataLoadProvider` 负责编解码操作，主要是提供编解码器，将 `InputStream` 和 `File` 转换成真正意义上的图片，也就是 `Bitmap` 和 `GifDrawable` 等。
- 
+
+```java
+public interface DataLoadProvider<T, Z> {
+    ResourceDecoder<File, Z> getCacheDecoder(); // 缓存解码器，从文件缓存中解码出目标资源
+    ResourceDecoder<T, Z> getSourceDecoder(); // 数据源解码器，从数据源中解码出目标资源
+    Encoder<T> getSourceEncoder(); // 数据源编码器，将数据源编码到 OutputStream
+    ResourceEncoder<Z> getEncoder(); // 资源解码器，将资源编码到 OutputStream
+}
+```
+
+上面的接口使用了很多范型，我们借助 `StreamBitmapDataLoadProvider` 来理解他，这个类是一个实现，它是针对 `InputStream` 和 `Bitmap` 编解码的实现
+
+```java
+public class StreamBitmapDataLoadProvider implements DataLoadProvider<InputStream, Bitmap> {
+    private final StreamBitmapDecoder decoder;
+    private final BitmapEncoder encoder;
+    private final StreamEncoder sourceEncoder;
+    private final FileToStreamDecoder<Bitmap> cacheDecoder;
+
+    public StreamBitmapDataLoadProvider(BitmapPool bitmapPool, DecodeFormat decodeFormat) {
+        sourceEncoder = new StreamEncoder();
+        decoder = new StreamBitmapDecoder(bitmapPool, decodeFormat);
+        encoder = new BitmapEncoder();
+        cacheDecoder = new FileToStreamDecoder<Bitmap>(decoder);
+    }
+
+    @Override
+    public ResourceDecoder<File, Bitmap> getCacheDecoder() {
+        // 缓存解码器，从文件缓存中解码出目标资源
+        // 这里就是将 File 解码成 Bitmap
+        return cacheDecoder;
+    }
+
+    @Override
+    public ResourceDecoder<InputStream, Bitmap> getSourceDecoder() {
+        // 数据源解码器，从数据源中解码出目标资源
+        // 这里是将请求回来的 InputStream 解码成 Bitmap
+        return decoder;
+    }
+
+    @Override
+    public Encoder<InputStream> getSourceEncoder() {
+        // 数据源编码器，将数据源编码到 OutputStream
+        // 这里是将请求回来的 InputStream 转换成 OutputStream 用来存文件什么的
+        return sourceEncoder;
+    }
+
+    @Override
+    public ResourceEncoder<Bitmap> getEncoder() {
+        // 资源解码器，将资源编码到 OutputStream
+        // 将已经转换好的 Bitmap 转成 OutputStream 用来存文件什么的
+        return encoder;
+    }
+}
+```
+
 也是采用注册表的方式，但是没有使用工厂，直接存储在内存中，使用 `DataLoadProviderRegistry` 来管理，内部同样是一个 `Map` 结构，存放了需要使用 `DataLoadProvider`，而且他也是 `Glide` 的成员对象。
 
 ```java
@@ -552,7 +768,7 @@ public class DataLoadProviderRegistry {
 }
 ```
 
-在 `Glide` 创建的时候初始化 
+在 `Glide` 创建的时候初始化
 
 ```java
 Glide.java
@@ -577,7 +793,13 @@ dataLoadProviderRegistry.register(InputStream.class, File.class, new StreamFileD
 
 ### Transcoder
 
-将 `Bitmap` 和 `GifDrawable` 转换成 `GlideDrawable`。
+`Transcoder` 做的是一个转码操作，负责将一种资源转换成另一种资源。
+
+```java
+public interface ResourceTranscoder<Z, R> {
+    Resource<R> transcode(Resource<Z> toTranscode);
+}
+```
 
 使用 `TranscoderRegistry` 管理，注册表管理。
 ```java
@@ -611,18 +833,34 @@ transcoderRegistry.register(GifBitmapWrapper.class, GlideDrawable.class,
 
 
 
+## 总结
 
+我们就以加载文件里的图片为例完整的理解一下第一次的基本加载过程：
 
+```bash
+数据源
+ModelLoader(DataFetcher)
+转化为 InputStream
+DataLoadProvider(SourceDecoder) -> 存文件缓存
+解码为 Bitmap
+ResourceTranscoder(transcode)
+转码为 GlideDrawable
+```
 
+对于上述加载过程构造的 `RequestBuilder` 为
 
+```java
+public class GenericRequestBuilder<ModelType, DataType, ResourceType, TranscodeType> {}
+public class GenericRequestBuilder<File, InputStream, Bitmap, GlideDrawable> {}
+```
 
+可以看出
 
-
-
-
-
-
-
-
-
-
+```
+File -> InputStream -> Bitmap -> GlideDrawable
+ModelType 数据源类型
+DataType 数据类型，从数据源 fetch 得到
+ResourceType 资源类型，由数据类型解码得到
+TranscodeType 转码类型，由资源类型转码得到
+```
+理解了这几种转换就能更清晰的理解 `Glide` 的内部原理
