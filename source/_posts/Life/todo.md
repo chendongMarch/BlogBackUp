@@ -12,6 +12,11 @@ tags:
  
 > TODO
 
+- [ ] Weex Cube
+- [ ] Adapter Empty Layout
+- [ ] React + Rax
+- [ ] RN
+- [ ] Flutter
 
 ## Book
 
@@ -32,10 +37,10 @@ tags:
 - [ ] 支付项目
 - [ ] Kotlin Secure Files 项目
 - [ ] 图片处理项目推进
-- [x] 适配器项目优化
-- [ ] 敏捷开发库整理
-- [ ] 二维码项目
-- [ ] weex cube 库
+- [x] 适配器项目优化, 使用注解简化
+- [ ] 项目模块化 xhttp,webkit,uikit,common
+- [ ] 二维码项目 zxing 模块
+- [x] weex cube 库
 
 ## Knowlege
 
@@ -45,7 +50,7 @@ tags:
 
 ## Source Code
 
-- [ ] Glide 源码
+- [x] Glide 源码
 - [ ] OkHttp 源码
 - [ ] EventBus 源码
 - [ ] AsyncTask 源码

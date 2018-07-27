@@ -1,16 +1,12 @@
 # Hexo Configuration
 ## Docs: https://hexo.io/docs/configuration.html
 ## Source: https://github.com/hexojs/hexo/
-# 世界上有10种人，一种懂二进制，一种不懂二进制。
-# 一定有人改了我的代码！
-# 你用的什么浏览器？
-# 你的数据有问题。
-# 刚才在我机器上好好的！！！
+
 # Site
-title: 三月
-subtitle: 
+title: 子非鱼
+subtitle:  
 description: Blog
-author: chendong
+author: 陈栋
 language: zh-CN
 timezone:
 avatar: /uploads/avatar.jpg
@@ -132,7 +128,7 @@ deploy:
   type: git
   repository: 
     - git@github.com:chendongMarch/chendongMarch.github.io.git
-    - https://git.coding.net/devlab/devlab.git
+    - git@coding.net:zfyx/zfyx.git
   branch: master
 
 # Others
@@ -185,7 +181,7 @@ image_minifier:
 
 
 live2d:
-  enable: true
+  enable: false
   scriptFrom: local
   pluginRootPath: live2dw/
   pluginJsPath: lib/

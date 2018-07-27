@@ -13,6 +13,7 @@ photos: http://olx4t2q6z.bkt.clouddn.com/18-2-6/30515419.jpg
 badges: ['https://badge.juejin.im/entry/5a793a405188257a82111092/likes.svg?style=flat-square','https://img.shields.io/github/stars/chendongMarch/SocialSdkLibrary.svg','https://img.shields.io/github/forks/chendongMarch/SocialSdkLibrary.svg']
 ---
 
+
 使用 **微博**、**QQ**、**微信**、**钉钉** 原生 `SDK` 接入，提供这些平台的登录、分享功能支持。针对业务逻辑对各个平台的接口进行封装，对外提供一致的表现，在减轻接入压力的同时，又能获得原生 `SDK` 最大的灵活性。
 
 > 考虑到每个平台的 `SDK` 也在不断的更新，且每个项目的需求差异比较大，如可能只需要支持部分平台，因此没有对类库进行发布，请下载 `GitHub` 上的 `module` 自行依赖，在类库设计的过程中，每个平台都是独立的，如果只需要支持部分平台，只需要删除 `platform` 包下面对应的实现即可，不会对其他平台造成影响。
@@ -21,9 +22,12 @@ badges: ['https://badge.juejin.im/entry/5a793a405188257a82111092/likes.svg?style
 
 本文地址 ：[快速接入微信微博QQ钉钉原生登录分享](http://cdevlab.top/article/3067853428/)
 
-🎉  2017.12.12 对代码进行简单重构并测试，发布第一个稳定版本 1.0.0
-    
+🎉  2017.12.12 对代码进行简单重构并测试  [稳定版本 1.0.0](https://github.com/chendongMarch/SocialSdkLibrary/releases/tag/1.0.0)
+
 🎉  2018.2.12 支持钉钉分享
+
+🎉  2018.5.12 修复内存问题、功能扩展 [稳定版本 1.1.0](https://github.com/chendongMarch/SocialSdkLibrary/releases/tag/1.1.0)
+
 
 <!--more-->
 
@@ -148,7 +152,7 @@ public class LoginResult {
 // 登陆结果监听
 mOnLoginListener = new OnLoginListener() {
     @Override
-    public void onLoginSucceed(LoginResult loginResult) {
+    public void onSuccess(LoginResult loginResult) {
         Log.e(TAG, loginResult.toString());
     }
     @Override
