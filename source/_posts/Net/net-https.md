@@ -570,8 +570,3 @@ okHttpClientBuilder.hostnameVerifier(new HostnameVerifier() {
 1. Google 推动的 Certificate Transparency 技术，它旨在通过开放的审计和监控系统，提高 HTTPS 网站证书安全性。CT 技术能改善这种情况，但 CT 还没有普及，现阶段浏览器不能贸然阻断没有提供 SCT 信息的 HTTPS 网站。[CT 介绍](https://imququ.com/post/certificate-transparency.html)
 
 2. HTTP Public Key Pinning 技术 [HPKP 介绍](https://imququ.com/post/http-public-key-pinning.html)
-
-
-
-
-> 本文首发于我的博客 [cdevlab.top](http://cdevlab.top/)

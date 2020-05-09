@@ -8,7 +8,7 @@ tags:
 abbrlink: b51d9f8e
 date: 2017-08-10 16:50:00
 location: 杭州
-photos: http://olx4t2q6z.bkt.clouddn.com/18-2-2/60301604.jpg
+photos: https://images.pexels.com/photos/1537317/pexels-photo-1537317.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500
 ---
 
 Git 日常命令收集，对平常使用的 `git` 命令及版本管理中遇到的问题进行梳理。
@@ -17,6 +17,22 @@ Git 日常命令收集，对平常使用的 `git` 命令及版本管理中遇到
 
 <!--more-->
 
+## 撤销操作
+
+在 `git add` 之前，文件未进入暂存区时，（撤销工作区修改）
+
+```bash
+$ git checkout -- filename.txt
+```
+
+在 `git commit` 之前，文件未到达远端时，（撤销暂存区修改）
+
+```bash
+# 将文件放回工作区
+$ git reset HEAD filename.txt
+# 撤销工作区修改
+$ git checkout -- filename.txt
+```
 ## git config 用户配置查看及更改
 
 ```bash
@@ -57,6 +73,7 @@ git clone {git-url} --depth 1
 git remote -v
 
 # 添加 origin 仓库
+# git remote add 命令是为了在添加之后可以使用远程仓库名称来进行访问，而不是使用 git url 的形式，它更像一个注册表
 git remote add origin {git-url}
 
 # 删除 orgin 仓库
@@ -77,6 +94,34 @@ git branch {branch-name}
 
 # 切换分支
 git checkout {branch-name}
+```
+
+## git tag 标签
+
+```bash
+# 显示所有 tag
+$ git tag
+
+# 过滤显示 tag
+$ git tag -l '2.*'
+
+# 打一个 tag
+$ git tag v1.0.0
+
+# 在某个 commit 打一个 tag
+$ git tag v1.0.0 [commitId]
+
+# 显示某个 tag 的信息
+$ git show v1.0.0
+
+# 删除标签
+$ git tag -d v1.0.0
+
+# 提交所有 tag
+$ git push origin –-tags
+
+# 提交指定 tag
+$ git push origin v1.0.0 
 ```
 
 ## git stash 暂存
@@ -138,6 +183,39 @@ git gc
 git gc --aggressive
 ```
 
+
+## git subtree 子模块管理
+
+使用 `git subtree` 命令适合管理那些迭代较为频繁的子模块，效果就是开发过程中协作中的其他人可以完全透明的跟原来一样进行提交和拉取，在这部分协作者看来子模块并没有自己的 `git` 管理，而只有子模块的管理者会定期将子模块的修改同步到子模块的仓库中。
+
+在命令开始之前，我们假设我们在一个 `git` 项目中，我们称之为主项目，现在要添加一个公用的子模块，它既要加入到当前项目的 `git` 仓库中，又能独立更新自己所在的远程仓库。
+
+```bash
+# 首先添加仓库别名
+git remote add showjoy-wx-cube git@git.showjoy.net:cardandroid/weex-cube.git
+
+# subtree 模式引入子模块
+git subtree add --prefix=[相对目录名称] [源/上面添加的源] [子模块的分支]
+git subtree add --prefix=weex-cube showjoy-wx-cube master
+
+# 此时模块已经引入，可以和平时一样操作主项目，完全没有影响
+git add -A
+git commit =m 'msg'
+git push 
+git pull
+
+# 子模块管理者想要更新本项目中的子模块
+git subtree pull --prefix=[相对目录名称] [源/上面添加的源] [子模块的分支]
+git subtree pull --prefix=weex-cube showjoy-wx-cube master
+
+# 子模块管理者想要将本地更新提交到子模块的仓库中
+git subtree push --prefix=[相对目录名称] [源/上面添加的源] [子模块的分支]
+git subtree push --prefix=weex-cube showjoy-wx-cube master
+
+# 为子模块添加多个源，我不只要更新子模块仓库，我子模块还有多个源，比如一个 github 公开的仓库，一个公司的私有仓库
+git remote add zfy-wx-cube git@github.com:chendongMarch/weex-cube.git
+git subtree push --prefix=weex-cube zfy-wx-cube master
+```
 
 ## Fix
 

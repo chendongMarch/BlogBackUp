@@ -79,7 +79,7 @@ class CustomViewHolder extends RecyclerView.ViewHolder {
 
 ## Adapter
 
-继承 `Recycler.Adapter` 实现适配器，下面是一个基本的实现，在实际过程中通常会封装来简化 `Adapter`，这里是我封装的一个类库，扩展了一些常用的功能 [RecyclerView LightAdapter](http://cdevlab.top/article/1632666977/)。
+继承 `Recycler.Adapter` 实现适配器，下面是一个基本的实现，在实际过程中通常会封装来简化 `Adapter`，这里是我封装的一个类库，扩展了一些常用的功能 [RecyclerView LightAdapter](http://zfyx.coding.me/article/1632666977/)。
 
 ```java
 class ContentAdapter extends RecyclerView.Adapter<CustomViewHolder> {

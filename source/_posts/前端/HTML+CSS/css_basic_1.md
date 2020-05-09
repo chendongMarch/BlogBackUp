@@ -302,3 +302,34 @@ p.oblique {font-style:oblique;}
 ---
 3
 ```
+
+
+## 盒模型
+
+盒模型是一个种布局方式，每个元素都被表示一个矩形的盒子，有尺寸大小、属性、颜色、边框和位置（渲染）目标。
+
+盒模型默认的值是content-box，CSS3中新增了一种盒模型计算方式：padding-box，还有常用的 border-box，几种盒模型计算元素宽高的区别如下：
+
+- content-box（默认）
+
+```
+width = width + padding-left + padding-right + border-left + border-right
+
+height = height + padding-top + padding-bottom + border-top + border-bottom
+```
+
+- padding-box（Css 3）
+
+```
+width = width(包含padding-left + padding-right) + border-top + border-bottom
+
+height = height(包含padding-top + padding-bottom) + border-top + border-bottom
+```
+
+- border-box
+
+```
+width = width(包含padding-left + padding-right + border-left + border-right)
+
+height = height(包含padding-top + padding-bottom + border-top + border-bottom)
+```

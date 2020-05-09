@@ -14,13 +14,15 @@ date: 2017-04-13 00:00:00
 ---
 
 ## 1. 前言
-> SQL，指结构化查询语言，全称是(Structured Query Language)，SQL 语句是大小写不敏感的。  
-> 说明：
-> 使用`db_name`作为数据库名，使用`tb_name`作为表名。
-> 使用`col_name`作为列名，使用`row_name`作为行名。
-> 使用`alias_name`作为别名。  
-> [xxx]表示可选使用的属性。
-> (a...|b...|c...)表示三种情况任选一种使用。
+
+SQL，指结构化查询语言，全称是(Structured Query Language)，SQL 语句是大小写不敏感的。  
+
+- 说明：
+	- 使用`db_name`作为数据库名，使用`tb_name`作为表名。
+	- 使用`col_name`作为列名，使用`row_name`作为行名。
+	- 使用`alias_name`作为别名。  
+	- [xxx]表示可选使用的属性。
+	- (a...|b...|c...)表示三种情况任选一种使用。
 
 <!--more-->
 
@@ -35,6 +37,14 @@ alias mysql=/usr/local/mysql/bin/mysql
 
 连接到mysql服务
 mysql -u root -p
+```
+
+## MySQL
+
+```bash
+sudo /usr/local/mysql/support-files/mysql.server start
+sudo /usr/local/mysql/support-files/mysql.server stop
+sudo /usr/local/mysql/support-files/mysql.server restart
 ```
 
 ## 3. 库操作语句
@@ -67,6 +77,7 @@ col_name2 data_type(size) [约束],
 col_name3 data_type(size) [约束],
 ....
 );
+
 eg:
 CREATE TABLE Persons(
 PersonID int,

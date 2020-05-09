@@ -128,7 +128,7 @@ deploy:
   type: git
   repository: 
     - git@github.com:chendongMarch/chendongMarch.github.io.git
-    - git@coding.net:zfyx/zfyx.git
+    - git@git.coding.net:zfyx/zfyx.git
   branch: master
 
 # Others

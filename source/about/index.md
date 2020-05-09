@@ -5,6 +5,7 @@ date: 2016-08-17 19:43:33
 comments: true
 ---
 
+Phone: 13611301719
 
 微信：[二维码](#wechat)
 
@@ -12,20 +13,9 @@ QQ：1101873740
 
 Email：HelloWorld4x@gmail.com
 
-## 推荐
+GitHub: [https://github.com/chendongMarch](https://github.com/chendongMarch)
 
-> - [Kotlin 学习](../tags/Kotlin/)
-
-> - [RxJava2.x 学习](../tags/RxJava2-x/)
-
-> - [Andriod 开发经验总结](../tags/AndroidTips/)
-
-> - [FFmemg NDK 编译](../tags/FFmpeg/)
-
-> - [Hexo + NexT](../tags/Hexo/)
-
-> - [我的开源项目](../tags/Contribute/)
-
+Blog: [http://zfyx.coding.me](http://zfyx.coding.me/)
 
 
 ---

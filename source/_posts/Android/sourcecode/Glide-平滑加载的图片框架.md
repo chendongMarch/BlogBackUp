@@ -10,9 +10,9 @@ keywords:
   - 图片加载
   - android
 abbrlink: 47636f69
-photos: 'http://olx4t2q6z.bkt.clouddn.com/18-3-21/70223294.jpg'
+photos: 'https://images.pexels.com/photos/789433/pexels-photo-789433.jpeg'
 location: 杭州尚妆
-date: 2018-03-21 09:58:00
+date: 2020-05-21 09:58:00
 ---
 
 本文按照 `Glide` 常用的如下用法来分析源码：
@@ -465,12 +465,12 @@ private final LazyDiskCacheProvider diskCacheProvider; // 文件 Lru 缓存
 内存缓存方案的选择，考虑如下几个方面：
 
 - `LruCache` 的优点是可以有效的将内存控制在一个范围内，并优先保留最后使用的图片，缺点是当内存到达界限时就会开始回收，长列表时有可能会将正在显示的图片回收掉。
-- `WeakRef` 的优点是在不造成内存溢出的前提下，上限较高，资源的回收由系统管理，只有在内存不足时才会回收资源，缺点是可能造成占用大量的内存，触发系统 `gc` 造成断崖式的内存回收。
+- `WeakRef` 的优点是在发生gc时，会回收只有弱引用的资源，并且通过 `cleanReferenceQueue`  我们可以观察到被回收的动作。
 - 当产生大量加载事件时，会不停的开辟和回收资源占用的内存空间，造成显著的内存抖动。
 
 更优化的内存缓存方案应该满足 3 个条件:
 
-- 对最近使用资源更宽容，给予这部分资源更充足的内存空间，保证正在使用的图片不会被回收
+- 保证正在使用的图片不会被回收，如果图片不被使用了要及时缓存到别的缓存中
 - 对没有使用的资源有一个上限管控，既能保证缓存的优势，又不会对内存空间造成压力
 - 减少内存空间的开辟操作，能够尽量复用已经开辟好的内存空间
 
@@ -485,6 +485,10 @@ private final LazyDiskCacheProvider diskCacheProvider; // 文件 Lru 缓存
 **资源的获取**：先从 `lruCache` 中获取，拿到资源后从 `lruCache` 删除，加入 `activeResouces` 中，保证该资源不会因为达到 `lruCache` 的内存上限而被回收。
 
 **资源的回收**：当资源被触发回收时，计算引用数，没有引用就从 `activeResouces` 移除，存储到 `lruCache` 中，方便下次可以从内存中读取到。
+
+如何判断资源没有引用了？
+
+启动一个后台线程不停的遍历 `ReferenceQueue` 一旦发现被系统回收的资源，立刻重新构建（引用数变为0）并且通知资源被 release 了，加入到 LRU 缓存中
 
 ### 文件缓存
 
@@ -567,7 +571,7 @@ private void onLoadFailed(Exception e) {
 
 针对 **内存 -> 文件 -> 数据源** 的整个流程，整理一个流程图，展示一下整个数据加载的过程。
 
-![](http://olx4t2q6z.bkt.clouddn.com/18-4-16/62517595.jpg)
+![](http://cdn1.showjoy.com/shop/images/20181124/BX9JCXJAYZTRMOMCCI2O1543028939641.png)
 
 
 ## 数据转换

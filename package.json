@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "hexo": {
-    "version": "3.4.4"
+    "version": "3.7.1"
   },
   "dependencies": {
-    "hexo": "^3.4.4",
+    "hexo": "^3.7.1",
     "hexo-abbrlink": "^2.0.4",
     "hexo-asset-image": "git+https://github.com/CodeFalling/hexo-asset-image.git",
     "hexo-autonofollow": "^1.0.1",

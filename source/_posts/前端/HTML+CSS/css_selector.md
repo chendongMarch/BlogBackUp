@@ -14,12 +14,68 @@ date: 2017-07-07 12:48:37
 password:
 ---
 
-
 使用 `CSS` 可以声明元素的样式规则，而这些规则到底匹配什么类型的元素，则由选择器来决定，选择器就是用来为声明的样式指定一个或者一组匹配的元素的一种规则。
 
 为了能满足匹配的多种要求，选择器的种类也是多种多样的。
  
 <!--more-->
+
+本文主要分为两部分，一个是借助选择器实现的一些特殊的效果做一下记录，另一个是系统的介绍各种选择器的使用和特性，做需要时查找使用。
+> 效果
+
+- hover A 元素，B 元素作出反应 
+
+> 选择器
+
+- 基本选择器
+- 多元素选择器
+- 属性选择器 (css2.1)
+- 伪类(css2.1)
+- 伪元素(css2.1)
+- 同级元素通用选择器(css3)
+- 属性选择器(css3)
+- 与用户界面有关的伪类(css3)
+- 结构性伪类(css3)
+- 反选伪类(css3)
+- :target 伪类(css3)
+
+## 记录一些效果
+
+- hover A 元素，B 元素作出反应 
+
+如果是当前元素的 `hover` 很好实现，使用 `hover` 伪类实现即可，目前的场景是 `hover` A 元素，B 元素作出反应，可以结合伪类选择器和后代选择器来实现，当 父元素 `hover` 时也改变子元素的状态。
+
+```html
+<style> 
+.child {
+	position:absolute;
+	height:100px;
+	background:blue;
+	transition:all 0.5s;
+	
+	left:-50%;
+	opacity: 0;
+	width: 300px;
+}
+.father {
+	background-color:red;
+	width:500px;
+	height: 300px;
+}
+
+.father:hover .child {
+	left:0;
+	opacity: 1;
+	width: 100px;
+}
+</style>
+ 
+<body>
+	<div class="father">
+		<div class="child"></div>
+	</div>
+</body>
+```
 
 ## 基本选择器
 
